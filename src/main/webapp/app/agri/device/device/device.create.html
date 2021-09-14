@@ -1,0 +1,270 @@
+<div id="page_content">
+    <form name="device_form" id="device_form" class="uk-form-stacked ng-pristine ng-invalid ng-invalid-required"
+          novalidate="">
+        <div id="page_heading" data-uk-sticky="{ top: 48, media: 960 }">
+            <span class="route-header">
+                <a class="uk-text-success" ui-sref="device-manager" data-translate="device.menu"></a>&nbsp;<i
+                    class="uk-icon-arrow-circle-right"></i>
+                <a class="uk-text-success" ui-sref="devices" data-translate="device.name"></a>&nbsp;<i
+                    class="uk-icon-arrow-circle-right"></i>
+                <span data-translate="global.button.create"></span>
+            </span>
+            <br/>
+            <div class="uk-margin-small-top">
+                <button has-any-authority="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, Device_Create" ng-click="submit(false)"
+                        type="submit" class="md-btn md-btn-success md-btn-small"><span
+                        class="uk-text-bold" data-translate="global.button.save"></span></button>
+                <button has-any-authority="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, Device_Create" ng-click="submit(true)"
+                        type="submit" class="md-btn md-btn-success md-btn-small"><span
+                        class="uk-text-bold" data-translate="global.button.saveAndClose"></span></button>
+                <a has-any-authority="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, Device_Delete" ui-sref="devices"
+                   class="md-btn md-btn-small"><span class="uk-text-bold"
+                                                     data-translate="global.button.cancel"></span></a>
+            </div>
+        </div>
+        <div id="page_content_inner">
+            <jhi-alert></jhi-alert>
+            <modal-alert></modal-alert>
+            <div class="md-card">
+                <div class="md-card-content">
+                    <div class="uk-grid " data-uk-grid-margin="">
+                        <div class="uk-width-medium-8-10">
+                            <div class="uk-grid ">
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold custom-label ng-scope"
+                                               data-translate="device.field.area"></label><span class="req">*</span>
+                                    </div>
+                                </div>
+                                <div class=" uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <input id="area_combobox" name="area_combobox"
+                                           ng-required="true"
+                                           data-parsley-required-message="{{messages.required}}"
+                                           data-parsley-trigger="focusin focusout"
+                                           position="bottom"
+                                           config="ComboBox['area_combobox'].config"
+                                           options="ComboBox['area_combobox'].options"
+                                           ng-model="device.areaId"
+                                           table="ComboBox['area_combobox'].table"
+                                           column="ComboBox['area_combobox'].column"
+                                           ng-change="areaChange()"
+                                           ng-model-object="selectedCbb.area"
+                                           scope-controller="ComboBox['area_combobox'].scope" selectize>
+                                </div>
+
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold custom-label ng-scope"
+                                               data-translate="device.field.shortName"></label>
+                                    </div>
+                                </div>
+                                <div class=" uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <div class="text-padding-top">
+                                        <span class="uk-text-normal" ng-bind="shortName"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="uk-grid ">
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold custom-label ng-scope"
+                                               data-translate="device.field.name"></label><span class="req">*</span>
+                                    </div>
+
+                                </div>
+                                <div class=" uk-width-small-2-3  uk-width-medium-2-6 parsley-row">
+                                    <input ng-model="device.name"
+                                           data-parsley-maxlength="255"
+                                           data-parsley-maxlength-message="{{messages.maxLength255}}"
+                                           data-parsley-whitespace="trim"
+                                           id="deviceName" type="text"
+                                           name="deviceName"
+                                           data-parsley-required-message="{{messages.required}}"
+                                           required=""
+                                           data-parsley-trigger="change"
+                                           class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                    <span class="md-input-bar "></span>
+                                </div>
+
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold custom-label ng-scope"
+                                               data-translate="device.field.serial"></label><span class="req">*</span>
+                                    </div>
+
+                                </div>
+                                <div class=" uk-width-small-2-3  uk-width-medium-2-6 parsley-row">
+                                    <input ng-model="device.serial"
+                                           data-parsley-maxlength="50"
+                                           data-parsley-maxlength-message="{{messages.maxLength50}}"
+                                           data-parsley-whitespace="trim"
+                                           id="serial" type="text"
+                                           name="serial"
+                                           data-parsley-required-message="{{messages.required}}"
+                                           required=""
+                                           data-parsley-trigger="change"
+                                           class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                    <span class="md-input-bar"></span>
+                                </div>
+                            </div>
+
+                            <div class="uk-grid ">
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold custom-label ng-scope"
+                                               data-translate="device.field.type"></label><span class="req">*</span>
+                                    </div>
+                                </div>
+                                <div class=" uk-width-small-2-3  uk-width-medium-2-6 parsley-row">
+                                    <input id="typeSelect"
+                                           placeholder="chọn loại"
+                                           ng-required="true"
+                                           data-parsley-required-message="{{messages.required}}"
+                                           config="selectize_type_config"
+                                           options="selectize_type_options"
+                                           position="bottom"
+                                           ng-model="device.type"
+                                           selectize="">
+                                </div>
+
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold custom-label ng-scope"
+                                               data-translate="device.field.timer"></label>
+                                        <span class="req">*</span>
+                                    </div>
+                                </div>
+                                <div class="uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <input ng-model="device.timer"
+                                           id="timer"
+                                           name="timer"
+                                           ng-required="true"
+                                           data-parsley-required-message="{{messages.required}}"
+                                           data-parsley-pattern="^\d{0,3}?$"
+                                           data-parsley-pattern-message="Nhập số nguyên tối đa 3 chữ số"
+                                           min="1"
+                                           max="999"
+                                           data-parsley-range="[1,999]"
+                                           data-parsley-range-message="Nhập số nguyên tối đa 3 chữ số"
+                                           type="number"
+                                           step="any"
+                                           data-parsley-trigger="change"
+                                           class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                </div>
+                            </div>
+
+                            <div class="uk-grid ">
+                                <div ng-if="device.type != 2" class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold custom-label ng-scope"
+                                               data-translate="device.field.category"></label>
+                                        <span class="req"> *</span>
+                                    </div>
+                                </div>
+                                <div ng-if="device.type != 2"
+                                     class="uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <input id="categorySelect"
+                                           placeholder="Chọn danh mục"
+                                           ng-required="device.type == 1"
+                                           data-parsley-required-message="{{messages.required}}"
+                                           config="selectize_category_config"
+                                           options="selectize_category_options"
+                                           position="bottom"
+                                           ng-model="device.category"
+                                           selectize="">
+                                </div>
+
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold custom-label ng-scope"
+                                               data-translate="device.field.ipeName"></label><span class="req"></span>
+                                    </div>
+                                </div>
+                                <div class=" uk-width-small-2-3  uk-width-medium-2-6 parsley-row">
+                                    <input ng-model="device.ipeName"
+                                           data-parsley-maxlength="255"
+                                           data-parsley-maxlength-message="{{messages.maxLength255}}"
+                                           data-parsley-whitespace="trim"
+                                           id="ipeName" type="text"
+                                           name="ipeName"
+                                           data-parsley-trigger="change"
+                                           class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                    <span class="md-input-bar"></span>
+                                </div>
+                            </div>
+
+                            <div ng-if="device.category == 6" class="uk-grid ">
+                                <div ng-if="device.category == 6" class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold custom-label ng-scope">URL</label>
+                                    </div>
+                                </div>
+
+                                <div ng-if="device.category == 6"
+                                     class="uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <input id="url"
+                                           ng-model="device.url"
+                                           ng-required="device.category == 6"
+                                           data-parsley-required-message="{{messages.required}}"
+                                           name="url"
+                                           data-parsley-trigger="change"
+                                           class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                </div>
+                            </div>
+
+                            <!--loai vendor cua thiet bi-->
+                            <div class="uk-grid ">
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold custom-label ng-scope"
+                                               data-translate="device.field.vendor"></label><span class="req"> *</span>
+                                    </div>
+                                </div>
+                                <div class=" uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <input id="vendorId_combobox" name="vendorId_combobox"
+                                           ng-required="true"
+                                           data-parsley-required-message="{{messages.required}}"
+                                           data-parsley-trigger="focusin focusout"
+                                           position="bottom"
+                                           config="ComboBox['vendorId_combobox'].config"
+                                           options="ComboBox['vendorId_combobox'].options"
+                                           ng-model="device.vendorId"
+                                           table="ComboBox['vendorId_combobox'].table"
+                                           column="ComboBox['vendorId_combobox'].column"
+                                           ng-model-object="selectedCbb.vendorId"
+                                           scope-controller="ComboBox['vendorId_combobox'].scope" selectize>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="uk-width-medium-2-10">
+                            <div class="user_heading_avatar custom-avatar-center" data-provides="fileinput"
+                                 ng-mouseenter="user.mouseEnter = true"
+                                 ng-mouseleave="user.mouseEnter = false">
+
+                                <img ng-if="device.avatar || user.userAvatarBase64" class="uk-border-circle"
+                                     ng-src="{{user.userAvatarBase64 ? user.userAvatarBase64 : '/attachment/images/' + device.avatar}}"
+                                     alt="user avatar" width="200" height="200"/>
+                                <img ng-if="!device.avatar && !user.userAvatarBase64" class="uk-border-circle"
+                                     ng-src="assets/img/avatars/avatar.jpg" alt="user avatar" width="200" height="200"/>
+
+                                <div class="user_avatar_controls">
+                                    <span class="btn-file uk-form-file custom-upload-icon" title="Maximum size: 64K">
+                                        <span class="fileinput-new"><i class="material-icons">&#xE2C6;</i></span>
+                                        <input-upload create="true"></input-upload>
+                                    </span>
+                                    <a ng-show="user.mouseEnter && (device.avatar || user.userAvatarBase64)"
+                                       ng-click="deleteUserAvatar()" class="btn-file fileinput-exists js-uk-prevent"
+                                       title="Delete"><i class="material-icons">&#xE5CD;</i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+</div>

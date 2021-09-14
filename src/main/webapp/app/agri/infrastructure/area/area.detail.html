@@ -1,0 +1,315 @@
+<div id="page_content" class="pageDetail">
+    <form name="form_create_area" id="form_create_area"
+          class="uk-form-stacked ng-pristine ng-invalid ng-invalid-required" novalidate="">
+        <div id="page_heading" data-uk-sticky="{ top: 48, media: 960 }">
+            <span class="route-header">
+                <a class="uk-text-success" ui-sref="infrastructure-manager" data-translate="admin.menu.infrastructure"></a>&nbsp;<i
+                    class="uk-icon-arrow-circle-right"></i>
+                <a class="uk-text-success" ui-sref="areas" data-translate="infrastructure.area.name"></a>&nbsp;<i
+                    class="uk-icon-arrow-circle-right"></i>
+                <span title="{{area.name}}" class="area-name">{{area.subName}}</span>&nbsp;<i class="uk-icon-arrow-circle-right"></i>
+                <span data-translate="global.button.detail"></span>
+            </span>
+
+            <br/>
+            <div class="uk-margin-small-top">
+                <button has-any-authority="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN, Area_Update" ui-sref="areas-edit({areaId: area.id})" type="button" class="md-btn md-btn-success md-btn-small"><span
+                        class="uk-text-bold" data-translate="global.button.edit"></span></button>
+                <button has-any-authority="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN, Area_Create" ui-sref="areas-create" type="button" class="md-btn md-btn-success md-btn-small"><span
+                        class="uk-text-bold" data-translate="global.button.create"></span></button>
+            </div>
+        </div>
+
+        <div id="page_content_inner">
+            <jhi-alert></jhi-alert>
+            <modal-alert></modal-alert>
+            <div class="md-card">
+                <div class="md-card-content">
+                    <div class="uk-grid ">
+                        <div class="uk-width-medium-1-6 text-padding-top">
+                            <label class="uk-text-bold" data-translate="infrastructure.area.column.name"></label>
+                            <span class="req"> *</span>
+                        </div>
+                        <div class="uk-width-medium-2-6 parsley-row">
+                            <input
+                                    readonly
+                                    ng-model="area.subName" id="farmCode" type="text"
+                                    title="{{area.name}}"
+                                    class="md-input ng-isolate-scope md-input-processed" md-input="">
+                        </div>
+
+                        <div class="uk-width-medium-1-6 text-padding-top">
+                            <label class="uk-text-bold" data-translate="infrastructure.area.column.shortName"></label>
+                            <span class="req">*</span>
+                        </div>
+                        <div class=" uk-width-medium-2-6 parsley-row">
+                            <input
+                                    readonly
+                                    id="shortName" name="shortName"
+                                    class=" md-input ng-isolate-scope md-input-processed"
+                                    ng-model="area.shortName"
+                                    md-input>
+                        </div>
+                    </div>
+
+                    <div class="uk-grid ">
+                        <div class="uk-width-medium-1-6 text-padding-top">
+                            <label class="uk-text-bold" data-translate="infrastructure.area.column.parent"></label>
+                        </div>
+                        <div class="uk-width-medium-2-6 parsley-row">
+                            <input readonly
+                                   ng-model="area.parent.name" id="owner" type="text"
+                                   class="md-input ng-isolate-scope md-input-processed" md-input="">
+                        </div>
+
+                        <div class="uk-width-medium-1-6 text-padding-top">
+                            <label class="uk-text-bold" data-translate="infrastructure.farm.column.acreage"></label>
+                            <span class="req"> *</span>
+                        </div>
+                        <div class="uk-width-medium-1-6 parsley-row">
+                            <input readonly
+                                   ng-model="area.acreage" id="area" type="text"
+                                   class=" md-input ng-isolate-scope md-input-processed"
+                                   md-input="">
+
+                        </div>
+                        <div class="uk-width-medium-1-6 parsley-row">
+                            <div class="parsley-row" >
+                                <input
+                                        readonly
+                                        id="typeUnitCbb" name="typeUnitCbb"
+                                        class=" md-input ng-isolate-scope md-input-processed"
+                                        ng-model="area.uom.name"
+                                        md-input>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uk-grid ">
+                        <div class="uk-width-medium-1-6 text-padding-top">
+                            <label class="uk-text-bold" data-translate="infrastructure.area.column.typeArea"></label>
+                            <span class="req">*</span>
+                        </div>
+                        <div class=" uk-width-medium-2-6 parsley-row">
+                            <input
+                                    readonly
+                                    id="typeFarmCbb" name="typeAreaCbb"
+                                    class=" md-input ng-isolate-scope md-input-processed"
+                                    ng-model="cultivationOption[area.type]"
+                                    md-input>
+                        </div>
+                    </div>
+
+                    <div class="uk-grid">
+                        <div class="uk-width-small-1-6">
+                            <label class="label-bold" data-translate="admin.role.column.Description"></label>
+                        </div>
+                        <div class="uk-width-small-5-6">
+                            <textarea cols="80" ng-readonly="true" class="md-input ng-isolate-scope md-input-processed border-around"
+                                      data-parsley-maxlength="1000"
+                                      data-parsley-maxlength-message="{{messages.maxLength1000}}"
+                                      ng-model="area.description" md-input></textarea>
+                        </div>
+                    </div>
+
+                    <!--tab-->
+                    <div class="uk-grid">
+                        <div class="uk-width-medium-1-1">
+                            <ul class="uk-tab" data-uk-tab="{connect:'#tabs_anim1', swiping:false}" id="js-control">
+                                <li ng-click="clickTab(1)" ng-class="{'uk-active': tab == 1}">
+                                    <a href="#"><h4 class="heading_a"
+                                                    data-translate="infrastructure.area.tab.monitoring"></h4></a>
+                                </li>
+                                <li ng-click="clickTab(2)" ng-class="{'uk-active': tab == 2}">
+                                    <a href="#"><h4 class="heading_a" id="tabDetail"
+                                                    data-translate="infrastructure.area.tab.device"></h4></a></li>
+                                <li ng-click="clickTab(3)" ng-class="{'uk-active': tab == 3}">
+                                    <a href="#"><h4 class="heading_a"
+                                                    data-translate="infrastructure.area.tab.product"></h4></a>
+                                </li>
+                            </ul>
+                            <ul id="tabs_anim1" class="uk-switcher uk-margin"
+                                style="overflow: visible !important;">
+                                <li ng-show="tab == 1" ng-class="{'uk-active': tab == 1}">
+                                    <!-- Thông số giám sát -->
+                                    <div class="uk-overflow-container uk-margin-bottom table-height-fixed">
+                                        <table class="hoverTable uk-table uk-table-align-vertical uk-table-striped uk-table-nowrap tablesorter tablesorter-altair table-fixed"
+                                               id="sensors">
+                                        <thead>
+                                        <tr>
+                                            <th><b>Khu vực</b></th>
+                                            <th><b>Thông số</b></th>
+                                            <th><b>Giá trị</b></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="sensor in area.sensors">
+                                            <td>{{sensor.areaName}}</td>
+                                            <td>
+                                                <span ng-if="sensor.sensorType == 'ONEFARM_tempLiquid'">Nhiệt độ dung dịch(C)</span>
+                                                <span ng-if="sensor.sensorType == 'ONEFARM_ecLiquid'">EC dung dịch(mS/cm)</span>
+                                                <span ng-if="sensor.sensorType == 'ONEFARM_phLiquid'">PH dung dịch</span>
+
+                                                <span ng-if="sensor.sensorType == 'ONEFARM_tempAir'">Nhiệt độ không khí(C)</span>
+                                                <span ng-if="sensor.sensorType == 'ONEFARM_humiAir'">Độ ẩm không khí(%)</span>
+                                                <span ng-if="sensor.sensorType == 'ONEFARM_luxAir'">Cường độ sáng(lux)</span>
+
+                                                <span ng-if="sensor.sensorType == 'ONEFARM_tempSoil'">Nhiệt độ đất(C)</span>
+                                                <span ng-if="sensor.sensorType == 'ONEFARM_humiSoil'">Độ ẩm đất(%)</span>
+                                                <span ng-if="sensor.sensorType == 'ONEFARM_ecSoil'">Ec đất(mS/cm)</span>
+
+                                                <span ng-if="sensor.sensorType == 'ONEFARM_sensorError'">Lỗi</span>
+                                            </td>
+                                            <td>{{sensor.data}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <!-- End Thông số giám sát -->
+                                </li>
+
+                                <li ng-show="tab == 2" ng-class="{'uk-active': tab == 2}">
+                                    <!-- Trạng thái thiết bị -->
+                                    <div class="uk-overflow-container uk-margin-bottom table-height-fixed">
+                                        <table class="hoverTable uk-table uk-table-align-vertical uk-table-striped uk-table-nowrap tablesorter tablesorter-altair table-fixed"
+                                               id="devices">
+                                            <thead>
+                                            <tr>
+                                                <th><b>Khu vực</b></th>
+                                                <th><b>Thiết bị</b></th>
+                                                <th><b data-translate="infrastructure.area.device.status"></b></th>
+                                            </tr>
+<!--                                            <tr>-->
+<!--                                                <td></td>-->
+<!--                                                <td>-->
+<!--                                                    <default-filter table="TABLES['devices']" column="'name'">-->
+<!--                                                </td>-->
+<!--                                                <td></td>-->
+<!--                                            </tr>-->
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="device in area.devices">
+                                                <td>{{device.areaName}}</td>
+                                                <td>{{device.name}}</td>
+                                                <td>
+                                                    <span ng-if="device.state==1" class="uk-badge uk-badge-success">Bật</span>
+                                                    <span ng-if="device.state==0" class="uk-badge uk-badge-danger">Tắt</span>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- End Trạng thái thiết bị -->
+                                </li>
+
+                                <!-- Sản phẩm -->
+                                <li ng-show="tab == 3" ng-class="{'uk-active': tab == 3}">
+                                    <div class="uk-overflow-container uk-margin-bottom table-height-fixed">
+                                        <table class="hoverTable uk-table uk-table-align-vertical uk-table-striped uk-table-nowrap tablesorter tablesorter-altair table-fixed"
+                                               id="products">
+                                            <thead>
+                                            <tr>
+                                                <th data-name="Select"><input type="checkbox" class="ts_checkbox_all">
+                                                </th>
+                                                <th>
+                                                    <th-content table="TABLES['products']"
+                                                                label="'infrastructure.area.product.name'"
+                                                                column="'name'"></th-content>
+                                                </th>
+                                                <th>
+                                                    <th-content table="TABLES['products']"
+                                                                label="'infrastructure.area.product.method'"
+                                                                column="'method'"></th-content>
+                                                </th>
+                                                <th>
+                                                    <th-content table="TABLES['products']"
+                                                                label="'infrastructure.area.product.characteristic'"
+                                                                column="'characteristic'"></th-content>
+                                                </th>
+                                                <th>
+                                                    <th-content table="TABLES['products']"
+                                                                label="'infrastructure.area.product.type'"
+                                                                column="'type'"></th-content>
+                                                </th>
+                                                <th>
+                                                    <th-content table="TABLES['products']"
+                                                                label="'infrastructure.area.product.phase'"
+                                                                column="'phase'"></th-content>
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td><input id="p1" type="checkbox" class="ts_checkbox" data-md-icheck
+                                                           icheck ng-model="row_select"></td>
+                                                <td>Dưa lưới</td>
+                                                <td>Giá thể</td>
+                                                <td>Cây ưa sáng</td>
+                                                <td>Cây ăn quả</td>
+                                                <td>Giai đoạn</td>
+                                            </tr>
+                                            <tr>
+                                                <td><input id="p2" type="checkbox" class="ts_checkbox" data-md-icheck
+                                                           icheck ng-model="row_select"></td>
+                                                <td>Dưa lưới</td>
+                                                <td>Giá thể</td>
+                                                <td>Cây ưa sáng</td>
+                                                <td>Cây ăn quả</td>
+                                                <td>Giai đoạn</td>
+                                            </tr>
+                                            <tr>
+                                                <td><input id="p3" type="checkbox" class="ts_checkbox" data-md-icheck
+                                                           icheck ng-model="row_select"></td>
+                                                <td>Dưa lưới</td>
+                                                <td>Giá thể</td>
+                                                <td>Cây ưa sáng</td>
+                                                <td>Cây ăn quả</td>
+                                                <td>Giai đoạn</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="ts_pager" id="table_product_pager">
+                                        <ul class="uk-pagination ts_pager">
+                                            <li ng-click="selectPageClickHandle()" data-uk-tooltip
+                                                title="{{selectPage}}">
+                                                <input ng-change="selectPageHandle('products')"
+                                                       id="product_selectize_page" type="text"
+                                                       config="TABLES['products'].selectize_page_config"
+                                                       options="TABLES['products'].selectize_page_options"
+                                                       ng-model="TABLES['products'].selectize_page"
+                                                       name="TABLES['products'].selectize_page" selectize>
+                                            </li>
+                                            <li><a href="javascript:void(0)" class="firstPage"
+                                                   ng-click="handleFirstPage('products')"><i
+                                                    class="uk-icon-angle-double-left"></i></a></li>
+                                            <li><a href="javascript:void(0)" class="prevPage"
+                                                   ng-click="handlePreviousPage('products')"><i
+                                                    class="uk-icon-angle-left"></i></a></li>
+                                            <li><span class="pageDisplay">1-20/50</span></li>
+                                            <li><a href="javascript:void(0)" class="nextPage"
+                                                   ng-click="handleNextPage('products')"><i
+                                                    class="uk-icon-angle-right"></i></a></li>
+                                            <li><a href="javascript:void(0)" class="lastPage"
+                                                   ng-click="handleLastPage('products')"><i
+                                                    class="uk-icon-angle-double-right"></i></a></li>
+                                            <li data-uk-tooltip title="{{pageSize}}">
+                                                <input ng-change="selectPageNumHandle('devices')"
+                                                       id="product_selectize_pageNum" type="text"
+                                                       config="TABLES['products'].selectize_pageNum_config"
+                                                       options="TABLES['products'].page_size_option"
+                                                       ng-model="TABLES['products'].selectize_pageNum"
+                                                       name="TABLES['products'].selectize_pageNum" selectize>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <!-- Sản phẩm -->
+                            </ul>
+                        </div>
+                        <!-- End of TABS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

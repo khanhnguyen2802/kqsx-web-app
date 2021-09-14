@@ -1,0 +1,255 @@
+<style>
+    body{
+        background-image: url('/assets/img/dashboard_2.jpg');
+        background-size: cover;
+    }
+</style>
+<div id="page_content" style="height: 100% !important;">
+    <div id="page_content_inner" has-any-authority="ROLE_SYSTEM_ADMIN, ROLE_SYSTEM_USER,ROLE_FARM_ADMIN, Home_Page_View">
+        <h3 class="uk-text-center uk-text-uppercase text-green" style="font-weight: 500" data-translate="admin.farm.SASS"></h3>
+
+        <div class="uk-grid">
+            <div class="uk-width-medium-1-5" style="margin-top: 20px" ng-repeat="area in data">
+                <div class="text-box" style="background: #ffff">
+                    <h3 class="uk-text-center uk-text-bold" style="border-bottom: 1px solid #0975db; margin-top: 20px">{{ area.name }}</h3>
+                    <h3 class="uk-text-center"><button type="button" ui-sref="diagram({ type: area.type,areaId: area.id})" class="md-btn"><strong>{{ areaTypes[area.type] }}</strong></button></h3>
+                    <p ng-if="area.season">
+                        Cây trồng: <span class="uk-text-bold">{{ area.season.productName }}</span>
+                    </p>
+                    <p ng-if="area.season">
+                        Quy trình: <span class="uk-text-bold">{{ area.season.productionProcess }}</span>
+                    </p>
+
+                    <!--gia the-->
+                    <div class="img-bottom" ng-style="{'padding' : (area.type == 4) ? '0 10px 10px' : ''}">
+                        <img ng-if="area.type == 1" ng-src="/assets/img/dashboard/giathe.png" alt="OneFarm - Giá thể">
+                        <img ng-if="area.type == 2" ng-src="/assets/img/dashboard/thuycanh.png" alt="OneFarm - Thuỷ canh">
+                        <img ng-if="area.type == 3" ng-src="/assets/img/dashboard/trongdat.png" alt="OneFarm - Trồng đất">
+                        <img ng-if="area.type == 4" ng-src="/assets/img/dashboard/channuoi.jpg" alt="OneFarm - Chăn nuôi">
+                    </div>
+                </div>
+            </div>
+
+<!--            <div class="uk-width-medium-1-5" style="margin-top: 20px" ng-repeat="children in area.children" ng-repeat-end>-->
+<!--                <div class="text-box-child">-->
+<!--                    <h3 class="uk-text-center uk-text-bold" style="border-bottom: 1px solid #0954db; margin-top: 20px">{{area.name + "/"}} {{ children.name }}</h3>-->
+<!--                    <h3 class="uk-text-center"><button type="button" ui-sref="diagram({ type: children.type,areaId: area.id })" class="md-btn"><strong>{{ areaTypes[children.type] }}</strong></button></h3>-->
+<!--                    <p ng-if="children.season">-->
+<!--                        Cây trồng: <span class="text-green">{{ children.season.productName }}</span>-->
+<!--                    </p>-->
+<!--                    <p ng-if="children.season">-->
+<!--                        Quy trình: <span class="text-green">{{ children.season.productionProcess }}</span>-->
+<!--                    </p>-->
+
+<!--                    &lt;!&ndash;gia the&ndash;&gt;-->
+<!--                    <div class="img-bottom" ng-style="{'padding' : (area.type == 4) ? '0 10px 10px' : ''}">-->
+<!--                        <img ng-if="children.type == 1" ng-src="/assets/img/dashboard/giathe.png" alt="OneFarm - Giá thể">-->
+<!--                        <img ng-if="children.type == 2" ng-src="/assets/img/dashboard/thuycanh.png" alt="OneFarm - Thuỷ canh">-->
+<!--                        <img ng-if="children.type == 3" ng-src="/assets/img/dashboard/trongdat.png" alt="OneFarm - Trồng đất">-->
+<!--                        <img ng-if="children.type == 4" ng-src="/assets/img/dashboard/channuoi.jpg" alt="OneFarm - Chăn nuôi">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+
+        <!--tab-->
+        <!--<div class="md-card" ng-show="tab != 0">
+            <div class="md-card-content">
+                <div class="uk-grid">
+                    <div class="uk-width-medium-1-1">
+                        <ul class="uk-tab uk-tab-flip" data-uk-tab="{connect:'#tabs_anim1', swiping:false}" id="js-control">
+                            <li ng-click="clickTab(1)" ng-class="{'uk-active': tab == 1}">
+                                <a href="#">Giá thể</a>
+                            </li>
+                            <li ng-click="clickTab(3)" ng-class="{'uk-active': tab == 3}">
+                                <a href="#">Trồng đất</a>
+                            </li>
+                            <li ng-click="clickTab(2)" ng-class="{'uk-active': tab == 2}">
+                                <a href="#">Thuỷ canh</a>
+                            </li>
+                            <li ng-click="clickTab(0)">
+                                <a href="#">Home</a>
+                            </li>
+                        </ul>
+                        <ul id="tabs_anim1" class="uk-switcher uk-margin" style="overflow: visible !important;">
+
+                            <li ng-show="tab == 1" ng-class="{'uk-active': tab == 1}">
+                                <div class="uk-grid">
+                                    &lt;!&ndash;gia the&ndash;&gt;
+                                    <div class="uk-width-small-1-2" ng-repeat="item in data" ng-if="item.type == 1">
+                                        <h4 class="text-blue uk-text-center"><strong>{{ item.name }}</strong></h4>
+                                        <div class="uk-grid">
+                                            <div class="uk-width-small-1-1">Bieu do</div>
+                                        </div>
+
+                                        <div class="md-card">
+                                            <div class="md-card-content">
+                                                <strong>Cây trồng: <span class="text-blue">{{ item.season.productName }}</span></strong> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <strong>Số ngày dự kiến thu hoạch: <span class="text-blue">{{ getExpectedDay(item) }}</span></strong> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <strong>Số ngày đã trồng: <span class="text-blue">{{ getRealityDay(item) }}</span> </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            &lt;!&ndash; Sản phẩm &ndash;&gt;
+                            <li ng-show="tab == 3" ng-class="{'uk-active': tab == 3}">
+                                <div class="uk-grid">
+                                    <div class="uk-width-small-1-1">
+                                        <table style="margin: 0 auto">
+                                            <tr>
+                                                <th class="text-blue">Nhiệt độ (C)</th>
+                                                <th class="text-blue">Độ ẩm (%)</th>
+                                                <th class="text-blue">Ánh sáng (lux)</th>
+                                            </tr>
+                                            <tr style="text-align: center">
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="uk-width-small-1-2" ng-repeat="item in data" ng-if="item.type == 3">
+                                        <h4 class="text-blue uk-text-center"><strong>{{ item.name }}</strong></h4>
+                                        <div class="uk-grid">
+                                            <div class="uk-width-small-3-5">Bieu do</div>
+                                        </div>
+
+                                        <div class="md-card">
+                                            <div class="md-card-content">
+                                                <strong>Cây trồng: <span class="text-blue">{{ item.season.productName }}</span></strong> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <strong>Số ngày dự kiến thu hoạch: <span class="text-blue">{{ getExpectedDay(item) }}</span></strong> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <strong>Số ngày đã trồng: <span class="text-blue">{{ getRealityDay(item) }}</span> </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            &lt;!&ndash; Sản phẩm &ndash;&gt;
+
+                            &lt;!&ndash;thuỷ canh&ndash;&gt;
+                            <li ng-show="tab == 2" ng-class="{'uk-active': tab == 2}">
+                                <div class="uk-grid">
+                                    <div class="uk-width-small-1-2" ng-repeat="item in data" ng-if="item.type == 2">
+                                        <h4 class="text-blue uk-text-center"><strong>{{ item.name }}</strong></h4>
+                                        <div class="uk-grid">
+                                            <div class="uk-width-small-3-5">Bieu do</div>
+                                            <div class="uk-width-small-2-5" style="background: #ebebeb">
+                                                <table>
+                                                    <tr>
+                                                        <th>Nhiệt độ (C)</th>
+                                                        <th>Độ ẩm (%)</th>
+                                                        <th>Ánh sáng (lux)</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>dis</td>
+                                                        <td>dis</td>
+                                                        <td>dis</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <div class="md-card">
+                                            <div class="md-card-content">
+                                                <strong>Cây trồng: <span class="text-blue">{{ item.season.productName }}</span></strong> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <strong>Số ngày dự kiến thu hoạch: <span class="text-blue">{{ getExpectedDay(item) }}</span></strong> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <strong>Số ngày đã trồng: <span class="text-blue">{{ getRealityDay(item) }}</span> </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            &lt;!&ndash;none&ndash;&gt;
+                            <li ng-show="tab == 0" ng-class="{'uk-active': tab == 0}">
+                                <h4>Home</h4>
+                            </li>
+                        </ul>
+                    </div>
+
+                    &lt;!&ndash;tab common&ndash;&gt;
+                    <div class="uk-width-small-1-1" style="margin-top: 20px">
+                        <div class="md-card">
+                            <div class="md-card-content">
+                                <p>
+                                    <strong>Trạng thái điều khiển</strong>  &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <strong>BỒN: </strong> TỰ ĐỘNG &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <strong>QUẠT GIÓ</strong> CHỦ ĐỘNG &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <strong>LƯỚT CẮT NẮNG</strong> CHỦ ĐỘNG &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <strong>ĐÈN</strong> CHỦ ĐỘNG
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uk-width-small-1-1" style="margin-top: 20px">
+                        <div class="md-card">
+                            <div class="md-card-content">
+                                <h5 class="uk-text-bold">Chú thích</h5>
+                                <div class="uk-grid">
+                                    <div class="uk-width-small-4-5">
+                                        <div class="uk-grid">
+                                            <div class="uk-width-small-1-4">
+                                                <img class="note-image" src="/assets/img/dashboard/bondinhduong.png" alt=""> Bồn dinh dưỡng
+                                            </div>
+                                            <div class="uk-width-small-1-4">
+                                                <img class="note-image" src="/assets/img/dashboard/bomdaydi.png" alt=""> Bơm đẩy đi
+                                            </div>
+                                            <div class="uk-width-small-1-4">
+                                                <img class="note-image" src="/assets/img/dashboard/cambienPHnuoc.png" alt=""> Cảm biến PH
+                                            </div>
+                                            <div class="uk-width-small-1-4">
+                                                <img class="note-image" src="/assets/img/dashboard/quatgio.png" alt=""> Quạt gió
+                                            </div>
+                                        </div>
+                                        <div class="uk-grid">
+                                            &lt;!&ndash;line 2&ndash;&gt;
+                                            <div class="uk-width-small-1-4">
+                                                <img class="note-image" src="/assets/img/dashboard/vansuckhi.png" alt=""> Van sục khí
+                                            </div>
+                                            <div class="uk-width-small-1-4">
+                                                <img class="note-image" src="/assets/img/dashboard/bomchamphanA.png" alt=""> Bơm châm phân A
+                                            </div>
+                                            <div class="uk-width-small-1-4">
+                                                <img class="note-image" src="/assets/img/dashboard/cambienECnuoc.png" alt=""> Cảm biến EC
+                                            </div>
+                                            <div class="uk-width-small-1-4">
+                                                <img class="note-image" src="/assets/img/dashboard/den.png" alt=""> Đèn
+                                            </div>
+                                        </div>
+
+                                        <div class="uk-grid">
+                                            &lt;!&ndash;line 3&ndash;&gt;
+                                            <div class="uk-width-small-1-4">
+                                                <img class="note-image" src="/assets/img/dashboard/vancapnuoc.png" alt=""> Van cấp nước
+                                            </div>
+                                            <div class="uk-width-small-1-4">
+                                                <img class="note-image" src="/assets/img/dashboard/bomchamphanB.png" alt=""> Bơm châm phân B
+                                            </div>
+                                            <div class="uk-width-small-1-4">
+                                                <img class="note-image" src="/assets/img/dashboard/dongcotatnang.png" alt=""> Động cơ cắt nắng
+                                            </div>
+                                            <div class="uk-width-small-1-4">
+                                                <img class="note-image" src="/assets/img/dashboard/bomthuhoi.png" alt=""> Bơm thu hồi
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-width-small-1-5">
+                                        <img class="note-image" src="/assets/img/dashboard/bat.png" alt=""><br>
+                                        <img class="note-image" src="/assets/img/dashboard/tat.png" alt=""><br>
+                                        <img class="note-image" src="/assets/img/dashboard/loi.png" alt=""><br>
+                                        <img class="note-image" src="/assets/img/dashboard/quatai.png" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    &lt;!&ndash; End of TABS &ndash;&gt;
+                </div>
+            </div>
+        </div>-->
+    </div>
+</div>

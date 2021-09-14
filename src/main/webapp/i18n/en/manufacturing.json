@@ -1,0 +1,38 @@
+{
+  "manufacturing": {
+    "name": "Manufacturing",
+    "season": {
+      "status": {
+        "new": "New",
+        "inProgress": "In Progress",
+        "finish": "Finish"
+      },
+      "column": {
+        "procedure": "Procedure",
+        "phaseComplete": "Completed phase"
+      },
+      "phase": "Phase Season",
+      "saveTitle" : "Click here to save",
+      "cancelTitle" : "Click here to cancel",
+      "editTitle" : "Click here to edit",
+      "deleteTitle" : "Click here to delete",
+      "selectCompletePhase": "(Select phase that has completed)"
+    },
+    "diary": {
+      "name": "Diary of production",
+      "column": {
+        "farm": "Farm",
+        "area": " Production Area",
+        "season": "Production Season",
+        "owner": "Owner of diary",
+        "code": "Season code",
+        "date": "Date",
+        "product": "Product",
+        "period": "Period",
+        "description": "Description",
+        "link": "Link file",
+        "action": "Action"
+      }
+    }
+  }
+}

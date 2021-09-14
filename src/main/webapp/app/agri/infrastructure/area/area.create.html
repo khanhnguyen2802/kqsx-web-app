@@ -1,0 +1,167 @@
+<div id="page_content" class="pageDetail">
+    <form name="form_create_area" id="form_create_area"
+          class="uk-form-stacked ng-pristine ng-invalid ng-invalid-required" novalidate="">
+        <div id="page_heading" data-uk-sticky="{ top: 48, media: 960 }">
+            <span class="route-header">
+                <a class="uk-text-success" ui-sref="infrastructure-manager" data-translate="admin.menu.infrastructure"></a>&nbsp;<i
+                    class="uk-icon-arrow-circle-right"></i>
+                <a class="uk-text-success" ui-sref="areas" data-translate="infrastructure.area.name"></a>&nbsp;<i
+                    class="uk-icon-arrow-circle-right"></i>
+                <span data-translate="global.button.create"></span>
+            </span>
+            <br/>
+            <div class="uk-margin-small-top">
+                <button ng-click="submit(false)" type="submit" class="md-btn md-btn-success md-btn-small"><span
+                        class="uk-text-bold" data-translate="global.button.save"></span></button>
+                <button ng-click="submit(true)" type="submit" class="md-btn md-btn-success md-btn-small"><span
+                        class="uk-text-bold" data-translate="global.button.saveAndClose"></span></button>
+                <a ui-sref="areas" class="md-btn md-btn-small"><span class="uk-text-bold" data-translate="global.button.cancel"></span></a>
+            </div>
+        </div>
+
+        <div id="page_content_inner">
+            <jhi-alert></jhi-alert><modal-alert></modal-alert>
+            <div class="md-card">
+                <div class="md-card-content">
+                    <div class="uk-grid">
+                        <div class="text-padding-top uk-width-small-1-3 uk-width-medium-1-6 ">
+                            <label class="label-bold  ng-scope"
+                                   data-translate="infrastructure.area.createArea.areaName"></label>
+                        </div>
+                        <div class="uk-width-small-2-3 uk-width-medium-2-6 ">
+                            <div class="parsley-row">
+                                <input
+                                        data-parsley-trigger="input"
+                                        data-parsley-whitespace="trim"
+                                        data-parsley-maxlength="255"
+                                        data-parsley-maxlength-message="{{messages.maxLength255}}"
+                                        ng-required="true"
+                                        data-parsley-required-message={{messages.required}}
+                                        ng-model="area.name"
+                                        class="md-input ng-isolate-scope md-input-processed" type="text"
+                                        md-input/>
+                                <span class="md-input-bar "></span>
+                            </div>
+                        </div>
+
+                        <div class="text-padding-top uk-width-small-1-3 uk-width-medium-1-6 ">
+                            <label class="label-bold  ng-scope"
+                                   data-translate="infrastructure.area.column.shortName"></label>
+                            <span class="req"> *</span>
+                        </div>
+                        <div class="uk-width-small-2-3 uk-width-medium-2-6 ">
+                            <div class="parsley-row">
+                                <input
+                                        data-parsley-trigger="input"
+                                        data-parsley-whitespace="trim"
+                                        data-parsley-maxlength="255"
+                                        data-parsley-maxlength-message="{{messages.maxLength255}}"
+                                        ng-required="true"
+                                        data-parsley-required-message={{messages.required}}
+                                        data-parsley-pattern="^[a-zA-Z0-9 ?><;.,{}[\]\-_+=!@#$%\^&*|']*$"
+                                        data-parsley-pattern-message="{{messages.alphabet}}"
+                                        ng-model="area.shortName"
+                                        class="md-input ng-isolate-scope md-input-processed" type="text"
+                                        md-input/>
+                                <span class="md-input-bar "></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uk-grid">
+                        <div class=" text-padding-top uk-width-small-1-3 uk-width-medium-1-6">
+                            <label class="label-bold  ng-scope"
+                                   data-translate="infrastructure.area.createArea.parentArea"></label>
+                        </div>
+                        <div class="uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                            <input
+                                    id="parentCbb" name="parentCbb"
+                                    position="bottom"
+                                    config="ComboBox['parentCbb'].config"
+                                    options="ComboBox['parentCbb'].options"
+                                    ng-model="area.parentId"
+                                    table="ComboBox['parentCbb'].table"
+                                    column="ComboBox['parentCbb'].column"
+                                    ng-change="parentAreaChange()"
+                                    scope-controller="ComboBox['parentCbb'].scope" selectize>
+                        </div>
+
+                        <div class="text-padding-top uk-width-small-1-3 uk-width-medium-1-6">
+                            <label class="label-bold ng-scope"
+                               data-translate="infrastructure.area.createArea.space"></label>
+                            <span class="req">*</span>
+                        </div>
+                        <div class="uk-width-small-2-3 uk-width-medium-2-6">
+                            <div class="uk-grid">
+                                <div style="padding-top: 5px;" class="uk-width-2-3 parsley-row">
+                                    <input
+                                            data-parsley-trigger="input"
+                                            data-parsley-whitespace="trim"
+                                            data-parsley-type="number"
+                                            data-parsley-type-message={{messages.number}}
+                                            data-parsley-pattern="^-?\d{1,12}(\.\d{0,3})?$"
+                                            data-parsley-pattern-message="{{messages.float12_3}}"
+                                            ng-required="true"
+                                            data-parsley-required-message={{messages.required}}
+                                            ng-model="area.acreage"
+                                            class=" md-input ng-isolate-scope md-input-processed"
+                                            type="text"
+                                            md-input/>
+                                </div>
+
+                                <div class="uk-width-1-3 parsley-row">
+                                    <input
+                                            id="unitCbb" name="unitCbb"
+                                            data-parsley-trigger="input"
+                                            ng-required="true"
+                                            data-parsley-required-message={{messages.required}}
+                                            position="bottom"
+                                            config="ComboBox['unitCbb'].config"
+                                            options="ComboBox['unitCbb'].options"
+                                            ng-model="area.unitId"
+                                            table="ComboBox['unitCbb'].table"
+                                            column="ComboBox['unitCbb'].column"
+                                            scope-controller="ComboBox['unitCbb'].scope" selectize>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uk-grid">
+                        <div class="text-padding-top uk-width-small-1-3 uk-width-medium-1-6">
+                            <label class="label-bold  ng-scope"
+                                   data-translate="infrastructure.area.createArea.typeArea"></label>
+                            <span class="req"> *</span>
+                        </div>
+                        <div class="uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                            <input
+                                    id="cultivationCbb" name="cultivationCbb"
+                                    data-parsley-trigger="input"
+                                    ng-required="true"
+                                    data-parsley-required-message="{{messages.required}}"
+                                    position="bottom"
+                                    config="ComboBox['cultivationCbb'].config"
+                                    options="ComboBox['cultivationCbb'].options"
+                                    ng-model="area.type"
+                                    table="ComboBox['cultivationCbb'].table"
+                                    column="ComboBox['cultivationCbb'].column"
+                                    scope-controller="ComboBox['cultivationCbb'].scope" selectize>
+                        </div>
+                    </div>
+
+                    <div class="uk-grid">
+                        <div class="uk-width-small-1-6">
+                            <label class="label-bold" data-translate="admin.role.column.Description"></label>
+                        </div>
+                        <div class="uk-width-small-5-6">
+                            <textarea cols="80" class="md-input ng-isolate-scope md-input-processed border-around"
+                                      data-parsley-maxlength="1000"
+                                      data-parsley-maxlength-message="{{messages.maxLength1000}}"
+                                      ng-model="area.description" md-input></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

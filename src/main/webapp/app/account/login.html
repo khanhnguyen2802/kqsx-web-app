@@ -1,0 +1,151 @@
+<style>
+    body {
+        background-image: url("assets/img/bg1.jpg");
+        background-color: #cccccc;
+        background-size: cover
+    }
+</style>
+
+<div class="login_page_wrapper">
+    <div class="md-card" id="login_card" style="opacity: 0.7">
+        <div style="text-align: center; padding-top: 16px">
+            <img src="assets/img/sidebar_head_bg.png" style="height: 60%" ; width="60%">
+        </div>
+        <div class="md-card-content large-padding" id="login_form" style="padding-top: 8px; padding-bottom: 8px;">
+            <!--        	<div class="uk-text-success"style="text-align: center; font-size: 27px;margin-bottom: 3px;">ONE FARM</div>-->
+            <!--            <div class="uk-text-success"style="text-align: center; font-size: 14px; padding-bottom: 5px;"> - <span class="ng-scope" data-translate="global.common.loginTitle"></span> -</div>-->
+            <form ng-submit="vm.login($event)"
+                  name="form_login"
+                  id="form_login"
+                  class="uk-form-stacked ng-pristine ng-invalid ng-invalid-required"
+                  novalidate="">
+                <div class="uk-form-row" ng-if="!vm.authenticationError"></div>
+                <div class="" ng-if="vm.authenticationError" style="margin-top: 15px;">
+                    <div class="uk-alert uk-alert-danger">
+                        <strong class="ng-scope" data-translate="global.messages.error.authentication"></strong> <br>
+                        <span class="ng-scope" ng-if="vm.authenticationError" data-translate="{{messageError}}"></span>
+                    </div>
+                </div>
+
+                <div class="uk-form-row">
+                    <span>Email</span>
+                    <div class="parsley-row">
+                        <input class="md-input md-input ng-isolate-scope md-input-processed" type="text" id="email"
+                               ng-model="vm.email"
+                               data-parsley-trigger="change"
+                               data-parsley-whitespace="trim"
+                               ng-required="true"
+                               data-parsley-required-message="{{'global.messages.required' | translate}}"
+                               data-parsley-maxlength="256"
+                               data-parsley-maxlength-message="{{'global.messages.emailLength' | translate}}"
+                               data-parsley-type="email"
+                               data-parsley-type-message="{{'global.messages.email' | translate}}"
+                               md-input/>
+                        <!-- d -->
+                    </div>
+                </div>
+                <div class="uk-form-row">
+                    <!-- <label class="ng-scope" data-translate="global.common.password"></label> -->
+                    <span class="ng-scope" data-translate="global.common.password"></span>
+                    <input class="md-input md-input ng-isolate-scope md-input-processed" type="password" id="password"
+                           ng-model="vm.password"
+                           data-parsley-trigger="change"
+                           data-parsley-whitespace="trim"
+                           ng-required="true"
+                           data-parsley-required-message="{{'global.messages.required' | translate}}"
+                           data-parsley-length="[6,256]"
+                           data-parsley-length-message="{{'global.messages.passwordLength' | translate}}"
+                           md-input/>
+                </div>
+                <!--                <div class="uk-form-row">-->
+                <!--                    <div id="select-language">-->
+                <!--		                <selectize id="lang_switcher" name="lang_switcher" config='langSwitcherConfig' options='langSwitcherOptions' ng-model="langSwitcherModel"></selectize>-->
+                <!--		            </div>-->
+                <!--                </div>-->
+                <div class="uk-form-row">
+                    <button ng-if="!logining" type="submit" class="md-btn md-btn-success md-btn-block md-btn-large">
+                        <span class="ng-scope" data-translate="global.common.signIn"></span>
+                    </button>
+                    <span disabled ng-if="logining" class="uk-text-italic" class="ng-scope"
+                          data-translate="global.loginpage.signing"></span>
+                </div>
+
+                <!--<div class="uk-margin-top">-->
+                <!--<span class="icheck-inline">-->
+                <!--<input type="checkbox" name="login_page_stay_signed" id="rememberMe" icheck ng-model="vm.rememberMe" />-->
+                <!--<label for="rememberMe" class="inline-label" data-translate="global.common.staySignedIn"></label>-->
+                <!--</span>-->
+                <!--</div>-->
+
+                <div class="uk-width-medium-1-1">
+                    </br>
+                    <a data-uk-modal="{target:'#modal_overflow'}"><span class="ng-scope"
+                                                                        data-translate="global.common.forgotPassword"></span></a>
+                    <a ui-sref="register" style="float: right;"><span class="ng-scope"
+                                                                      data-translate="global.common.register"></span></a>
+                </div>
+                <div id="select-language">
+                    <selectize id="lang_switcher" name="lang_switcher" config='langSwitcherConfig'
+                               options='langSwitcherOptions' ng-model="langSwitcherModel"></selectize>
+                </div>
+            </form>
+            <form ng-submit="vm.forgotPassword()"
+                  name="form_forgotPass"
+                  id="form_forgotPass"
+                  class="uk-form-stacked ng-pristine ng-invalid ng-invalid-required"
+                  novalidate="">
+                <div id="modal_overflow" class="uk-modal">
+                    <div class="uk-modal-dialog" ng-show="!sendMail">
+                        <button type="button" class="uk-modal-close uk-close uk-close-alt"></button>
+                        <h2 style="text-align: center; font-size: 22px;"><span class="ng-scope"
+                                                                               data-translate="global.common.forgotPassword"></span>
+                        </h2>
+                        <br>
+                        <!-- <h3>
+                            <label class="label-bold" for="email" class="ng-scope" data-translate="global.loginpage.forgotPassword.label"><br></label>
+                        </h3> -->
+                        <div class="uk-grid" data-uk-grid-margin>
+                            <div class="uk-width-medium-3-3">
+                                <div class="uk-form-row">
+                                    <label>Email</label>
+                                    <input class="md-input md-input ng-isolate-scope md-input-processed"
+                                           id="emailForgot" type="text" id="emailForgot" ng-model="vm.emailForgotPass"
+                                           ng-change="emailForgotChange()"
+                                           data-parsley-trigger="change"
+                                           data-parsley-whitespace="trim"
+                                           ng-required="true"
+                                           data-parsley-required-message="{{'global.messages.required' | translate}}"
+                                           data-parsley-maxlength="256"
+                                           data-parsley-maxlength-message="{{'global.messages.emailLength' | translate}}"
+                                           data-parsley-type="email"
+                                           data-parsley-type-message="{{'global.messages.email' | translate}}"
+                                           md-input/>
+                                    <span ng-show="checkEmail" class="uk-text-danger"
+                                          data-translate="{{messageError}}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <span ng-show="failed" class="uk-alert uk-alert-danger">Gửi mail thất bại</span> -->
+                        <div class="uk-modal-footer uk-text-right">
+                                <span>
+                                    <button type="submit" class="md-btn md-btn-success md-btn-flat" class="ng-scope"
+                                            data-translate="global.button.send"></button>
+                                    <button type="button" class="md-btn md-btn-default md-btn-flat uk-modal-close"
+                                            ng-click="onCacel()" class="ng-scope"
+                                            data-translate="global.button.cancel2"></button>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="uk-modal-dialog" ng-show="sendMail">
+                        <span class="uk-alert uk-alert-success" class="ng-scope"
+                              data-translate="global.success.sendEmail"></span>
+                        <div class="uk-modal-footer uk-text-right">
+                            <button type="button" class="md-btn md-btn-flat  uk-modal-close" ng-click="onClose()"
+                                    class="ng-scope" data-translate="global.button.cancel2"></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

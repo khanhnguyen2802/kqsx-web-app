@@ -1,0 +1,42 @@
+{
+  "qrCode": {
+    "print_stamp": "In tem",
+    "print_amount": "Số tem",
+    "print": "In",
+    "list": "Danh sách",
+    "column": {
+      "code": "Mã QR",
+      "season": "Đợt",
+      "product": "Sản phẩm",
+      "packaging_date": "Ngày đóng gói",
+      "number_of_print": "Số lần in",
+      "action": "Thao tác"
+    },
+    "field": {
+      "area": "Khu vực sản xuất",
+      "season": "Đợt",
+      "product": "Sản phẩm",
+      "season_code": "Mã đợt",
+      "packaging_date": "Ngày đóng gói"
+    },
+    "placeholder": {
+      "selectArea": "Chọn khu vực",
+      "selectSeason": "Chọn đợt",
+      "selectProduct": "Chọn sản phẩm"
+    },
+    "detail": {
+      "farm_info": "Thông tin trang trại",
+      "product_info": "Thông tin sản phẩm",
+      "product": "Sản phẩm",
+      "packaging_date": "Ngày đóng gói",
+      "description": "Mô tả",
+      "production_info":"Thông tin sản xuất",
+      "farm": "Trang trại",
+      "address": "Địa chỉ",
+      "area": "Khu vực sản xuất",
+      "phone": "Số điện thoại",
+      "season": "Đợt",
+      "code": "Mã QRcode"
+    }
+  }
+}

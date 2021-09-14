@@ -1,0 +1,275 @@
+<script src="assets/contextmenu-abs/jquery.contextMenu-custom.js"></script>
+<link href="assets/contextmenu-abs/jquery.contextMenu.css" rel="stylesheet" >
+<div id="page_content">
+    <div id="page_heading" data-uk-sticky="{ top: 48, media: 960 }" class="header-fixed">
+        <span class="route-header">
+            <a class="uk-text-success" ui-sref="infrastructure-manager" data-translate="admin.menu.infrastructure"></a>&nbsp;<i class="uk-icon-arrow-circle-right"></i>
+            <span data-translate="infrastructure.area.tab.product"></span>
+        </span>
+        </br>
+        <div class="uk-margin-small-top">
+            <a has-any-authority ="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN, Product_Create" ui-sref="products-create" class="md-btn md-btn-success md-btn-small"><span class="uk-text-bold" data-translate="global.button.create"></span></a>
+            <button has-any-authority ="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN, Product_Create" id="deleteBtn" class="md-btn md-btn-small hideElement" ng-click="defaultDelete()"><span class="uk-text-bold" data-translate="global.button.delete"></span></button>
+        </div>
+    </div>
+    <div id="page_content_inner">
+        <jhi-alert></jhi-alert><modal-alert></modal-alert>
+        <div class="md-card">
+            <div class="md-card-content">
+                <div class="uk-grid">
+                    <span
+                            class="uk-input-group-addon"
+                            style="padding: 0; cursor: pointer; left: -5px; position: absolute"
+                            ng-show="!showTree"
+                            ng-click="toogleTree()">
+                        <i class="material-icons">fast_forward</i>
+                    </span>
+
+                    <div class='uk-width-medium-3-10' ng-show="showTree">
+                        <div class="md-card">
+                            <div class="md-card-content">
+                                <div class="uk-grid uk-margin-small-bottom">
+                                    <div class="uk-width-medium-1-1" id="filter_switches">
+                                        <div class="uk-margin-bottom">
+                                            <div class="uk-input-group">
+                                                <input type="text" class="md-input" placeholder="{{'admin.role.column.FilterTree' | translate}}" id="filter_input" ng-model="tree.filterInput">
+                                                <span class="uk-input-group-addon">
+                                                	<button ng-show = "false"
+                                                            class="md-btn md-btn-small"
+                                                            href="#" id="tree_filter_reset"
+                                                            ng-disabled="tree.filterInput == ''"
+                                                            data-translate="global.button.clear">
+                                                    </button>
+                                                	<a has-any-authority ="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN, Category_Create" class="material-icons" style="font-size: 30px !important;" ng-click="onAddCategory()">
+                                                		add_circle
+                                                    </a>
+					
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-width-medium-1-1">
+                                        <div class="category-box-left">
+                                            <!-- Definition tree structure -->
+                                            <!-- <div ng-if="empty" class="custom-data-info"><i><span data-translate="infrastructure.categoryProduct.noData"></span></i></div> -->
+                                            <ul id="myMenu" class="contextMenu">
+                                                <li has-any-authority ="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN, Category_Create"><a href="#add"><i class="uk-icon-plus-circle"></i> <span data-translate="infrastructure.categoryProduct.create"></span></a></li>
+                                                <li has-any-authority ="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN, Product_Update"><a href="#add_material"><i class="uk-icon-plus-circle"></i> <span data-translate="infrastructure.categoryProduct.createProduct"></span></a></li>
+                                                <li has-any-authority ="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN, Category_Update"><a href="#edit"><i class="uk-icon-edit"></i> <span data-translate="infrastructure.categoryProduct.edit"></span></a></li>
+                                                <li has-any-authority ="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN, Category_Delete"><a href="#remove"><i class="uk-icon-trash"></i> <span data-translate="infrastructure.categoryProduct.delete"></span></a></li>
+                                            </ul>
+                                            <div id="tree" style="height: 420px"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <span
+                                        class="uk-input-group-addon showTree"
+                                        ng-show="showTree"
+                                        style="padding: 0; cursor: pointer"
+                                        ng-click="toogleTree()">
+                                    <i class="material-icons" ng-if="showTree">fast_rewind</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div has-any-authority ="ROLE_SYSTEM_ADMIN, ROLE_SYSTEM_USER, ROLE_FARM_ADMIN, Product_View" class="{{showTree ? 'uk-width-medium-7-10' : 'uk-width-medium-1-1'}} category-box material">
+                        <div class="category-box-right">
+                            <div class="uk-overflow-container uk-margin-bottom table-height-fixed" style="margin-top: 15px; max-height: 420px;">
+                                <table class="hoverTable uk-table uk-table-align-vertical uk-table-striped uk-table-nowrap tablesorter tablesorter-altair table-fixed" id="products">
+                                    <thead>
+                                    <tr>
+                                        <th data-name="Select"><input type="checkbox" class="ts_checkbox_all"></th>
+                                        <th><th-content table="TABLES['products']" label="'infrastructure.product.column.code'" column="'code'"></th-content></th>
+                                        <th><th-content table="TABLES['products']" label="'infrastructure.product.column.name'" column="'name'"></th-content></th>
+                                        <th><th-content table="TABLES['products']" label="'infrastructure.product.column.typeProduct'" column="'categoryId'"></th-content></th>
+                                        <!-- <th><th-content table="TABLES['products']" label="'infrastructure.product.column.createdDate'" column="'created'"></th-content></th>
+                                        <th><th-content table="TABLES['products']" label="'infrastructure.product.column.createdUser'" column="'createdBy'"></th-content></th> -->
+                                        <th class="label-bold"><span data-translate="infrastructure.farm.column.action"></span></th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><default-filter table="TABLES['products']" column="'code'"></td>
+                                        <td><default-filter table="TABLES['products']" column="'name'"></td>
+                                        <td>
+                                            <selectize id="categoryCbb"
+                                                       position="bottom"
+                                                       config="ComboBox['categoryCbb'].config"
+                                                       options="ComboBox['categoryCbb'].options"
+                                                       ng-model="ComboBox['categoryCbb'].ngModel"
+                                                       table="ComboBox['categoryCbb'].table"
+                                                       column="ComboBox['categoryCbb'].column"
+                                                       scope-controller="ComboBox['categoryCbb'].scope">
+                                            </selectize>
+                                        </td>
+                                        <!-- <td><date-picker-filter table="TABLES['products']" column="'created'"></date-picker-filter></td>
+                                        <td>
+                                            <selectize id="userId"
+                                                       position="bottom"
+                                                       config="ComboBox['userId'].config"
+                                                       options="ComboBox['userId'].options"
+                                                       ng-model="ComboBox['userId'].ngModel"
+                                                       table="ComboBox['userId'].table"
+                                                       column="ComboBox['userId'].column"
+                                                       scope-controller="ComboBox['userId'].scope">
+                                            </selectize>
+                                        </td> -->
+                                        <td></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="item in products" on-last-repeat ng-class="{'hoverRow': !item.unRemove, 'custom-un-remove': item.unRemove}" title="{{material.unRemove}}">
+                                        <td><input id="{{item.id}}" type="checkbox" class="ts_checkbox" data-md-icheck icheck ng-model="row_select"></td>
+                                        <td>{{item.code}}</td>
+                                        <td><a ui-sref="products-detail({productId: item.id })">{{item.name}}</a></td>
+                                        <td>{{item.productCategory.categoryName}}</td>
+                                        <!-- <td>{{item.created | date: 'dd/MM/yyyy'}}</td>
+                                        <td>
+                                            {{item.createdBy}}
+                                        </td> -->
+                                        <td style="text-align: center">
+                                            <a has-any-authority ="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN, Product_Update" ui-sref="products-edit({ productId: item.id })"
+                                                title="{{'global.tooltip.edit' | translate}}"><i class="uk-icon-small uk-icon-edit" style="font-size: 17px"></i></a>&nbsp;
+                                            <a has-any-authority ="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN, Product_Delete" ng-click="deleteOne(item.id)"
+                                                title="{{'global.tooltip.delete' | translate}}" class="material-icons">delete</a>&nbsp;
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="ts_pager" id="table_product_pager">
+                                <ul class="uk-pagination ts_pager">
+                                    <li ng-click="selectPageClickHandle()" data-uk-tooltip title="{{selectPage}}">
+                                        <input ng-change="selectPageHandle('products')" id="product_selectize_page" type="text"
+                                               config="TABLES['products'].selectize_page_config" options="TABLES['products'].selectize_page_options"
+                                               ng-model="TABLES['products'].selectize_page" name="TABLES['products'].selectize_page" selectize>
+                                    </li>
+                                    <li><a href="javascript:void(0)" class="firstPage" ng-click="handleFirstPage('products')"><i class="uk-icon-angle-double-left"></i></a></li>
+                                    <li><a href="javascript:void(0)" class="prevPage" ng-click="handlePreviousPage('products')"><i class="uk-icon-angle-left"></i></a></li>
+                                    <li><span class="pageDisplay">1-20/50</span></li>
+                                    <li><a href="javascript:void(0)" class="nextPage" ng-click="handleNextPage('products')"><i class="uk-icon-angle-right"></i></a></li>
+                                    <li><a href="javascript:void(0)" class="lastPage" ng-click="handleLastPage('products')"><i class="uk-icon-angle-double-right"></i></a></li>
+                                    <li data-uk-tooltip title="{{pageSize}}">
+                                        <input ng-change="selectPageNumHandle('products')" id="product_selectize_pageNum" type="text"
+                                               config="TABLES['products'].selectize_pageNum_config" options="TABLES['products'].page_size_option"
+                                               ng-model="TABLES['products'].selectize_pageNum" name="TABLES['products'].selectize_pageNum" selectize>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- create tree node -->
+        <div class="uk-modal" id="category_modal">
+            <form id="form_create_material" name="form_create_material" class="uk-form-stacked ng-pristine ng-invalid ng-invalid-required" novalidate="">
+                <div class="uk-modal-dialog uk-modal-dialog-small">
+                    <a class="uk-modal-close" style="position: absolute; right: 20px;">
+                        <i class="material-icons">&#xE14C;</i></a>
+
+                    <div class="uk-grid">
+                        <div class="uk-width-medium-1-1">
+                            <label class="label-bold"
+                                   data-translate="admin.materialCategory.parent"></label> (*)
+                            <div class="parsley-row" ng-if="!canChangeCategoryParent">
+                                <input readonly
+                                       ng-model="categoryParentName"
+                                       class="md-input ng-isolate-scope md-input-processed" type="text"
+                                       md-input />
+                            </div>
+                            <div class="parsley-row" ng-if="canChangeCategoryParent">
+                                <input id="category"
+                                       ng-required="true"
+                                       data-parsley-required-message="{{'global.messages.required' | translate}}"
+                                       position="bottom"
+                                       config="ComboBox['category'].config"
+                                       options="ComboBox['category'].options"
+                                       ng-model="category.parentId"
+                                       table="ComboBox['category'].table"
+                                       column="ComboBox['category'].column"
+                                       ng-change="onCategoryChange()"
+                                       scope-controller="ComboBox['category'].scope" selectize/>
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-1-1" style="margin-top: 20px">
+                            <label class="label-bold"
+                                   data-translate="admin.materialCategory.name"></label> (*)
+                            <input id="categoryName"
+                                   ng-required="true"
+                                   data-parsley-required-message="{{'global.messages.required' | translate}}"
+                                   data-parsley-maxlength-message="{{'global.messages.maxLength255' | translate}}"
+                                   data-parsley-maxlength="255"
+                                   class="md-input ng-isolate-scope md-input-processed"
+                                   type="text" ng-model="category.name" md-input />
+                        </div>
+                        <div class="uk-width-medium-1-1" style="margin-top: 20px">
+                            <label class="label-bold"
+                                   data-translate="admin.materialCategory.description"></label>
+                            <input id="categoryDescription"
+                                   data-parsley-required-message="{{'global.messages.required' | translate}}"
+                                   data-parsley-maxlength-message="{{'global.messages.maxLength255' | translate}}"
+                                   data-parsley-maxlength="255"
+                                   class="md-input ng-isolate-scope md-input-processed"
+                                   type="text" ng-model="category.description" md-input />
+                        </div>
+                        <div class="uk-width-medium-1-1" style="margin-top: 20px">
+                            <label class="label-bold"
+                                   data-translate="admin.materialCategory.createdBy"></label>
+                            <input id="createdBy"
+                                   ng-readonly="true"
+                                   ng-required="true"
+                                   data-parsley-required-message="{{'global.messages.required' | translate}}"
+                                   data-parsley-maxlength-message="{{'global.messages.maxLength256' | translate}}"
+                                   data-parsley-maxlength="256"
+                                   class="md-input ng-isolate-scope md-input-processed"
+                                   type="text" ng-model="category.createdBy" md-input />
+                        </div>
+                    </div>
+
+                    <div class="uk-modal-footer uk-text-right">
+                        <button
+                                ng-if="!addCategory"
+                                class="md-btn md-btn-success md-btn-small"
+                                ng-click="updateCategory()" type="submit">
+                            <span class="uk-text-bold" data-translate="global.button.ok"></span>
+                        </button>
+                        <button
+                                ng-if="addCategory"
+                                class="md-btn md-btn-success md-btn-small"
+                                ng-click="createCategory()" type="submit">
+                            <span class="uk-text-bold" data-translate="global.button.create"></span>
+                        </button>
+                        <button id="closeCategoryBtn" class="uk-modal-close md-btn md-btn-default md-btn-small"><span class="uk-text-bold" data-translate="global.button.cancel"></span></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <button id="categoryBtn" ng-show="false" data-uk-modal="{target:'#category_modal'}">active</button>
+
+        <div id="modal_overflow" class="uk-modal">
+            <div class="uk-modal-dialog">
+                <button type="button" class="uk-modal-close uk-close uk-close-alt"></button>
+                <h3>
+                    <label class="label-bold" >Nhập danh mục vật tư<br></label>
+                </h3>
+                <div class="uk-grid">
+                    <div class="uk-width-small-1-1">
+                        <input id="form-file" type="file" accept=".xlsx,.xls" ng-model="file_upload">
+                    </div>
+                    <br>
+                    <br>
+                    <div class="uk-width-small-1-1">
+                        Nhập dữ liệu giống tệp mẫu  <a target="_blank" href="http://www.google.com">Tải tệp</a>
+                    </div>
+                </div>
+                <div class="uk-modal-footer uk-text-right">
+                    <button type="button" class="md-btn md-btn-success" ng-click=importExcel()>Nhập</button>
+                    <button type="button" class="md-btn uk-modal-close">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

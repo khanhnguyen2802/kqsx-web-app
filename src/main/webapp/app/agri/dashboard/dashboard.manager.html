@@ -1,0 +1,247 @@
+<style>
+  body{
+    background-image: url('/assets/img/dashboard_2.jpg');
+    background-size: cover;
+  }
+</style>
+<div id="page_content">
+
+  <div id="page_content_inner">
+    <h1  class="uk-text-success">Hạ tầng sản xuất</h1>
+    <div class="uk-grid">
+      <!--Farm-->
+      <div has-any-authority ="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, Material_View" class="uk-width-medium-1-3 custom-box-padding-top">
+        <div class="md-card custom-cursor-poiter custom-panel" ng-click="goToMaterial()">
+          <div class="md-card-content " >
+            <div class="uk-grid">
+              <div class="uk-width-medium-1-6 ">
+                <i class="material-icons md-48 uk-text-success">nature</i>
+              </div>
+              <div class="uk-width-medium-5-6 "  style="padding-left: 0px">
+                <div class="custom-panel-label-2">
+                  <span ><b data-translate="admin.menu.farm" class="custom-panel-label-2"></b></span><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Area-->
+      <div has-any-authority ="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, Order_View" class="uk-width-medium-1-3 custom-box-padding-top">
+        <div class="md-card custom-cursor-poiter custom-panel" ng-click="goToOrder()">
+          <div class="md-card-content " >
+            <div class="uk-grid">
+              <div class="uk-width-medium-1-6 ">
+                <i class="material-icons md-48 uk-text-success">space_bar</i>
+              </div>
+              <div class="uk-width-medium-5-6 "  style="padding-left: 0px">
+                <div class="custom-panel-label-2">
+                  <span ><b data-translate="admin.menu.area" class="custom-panel-label-2"></b></span><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Product-->
+      <div has-any-authority ="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, Product_View" class="uk-width-medium-1-3 custom-box-padding-top">
+        <div class="md-card custom-cursor-poiter custom-panel" ng-click="goToProduct()">
+          <div class="md-card-content " >
+            <div class="uk-grid">
+              <div class="uk-width-medium-1-6 ">
+                <i class="material-icons md-48 uk-text-success">redeem</i>
+              </div>
+              <div class="uk-width-medium-5-6 "  style="padding-left: 0px">
+                <div class="custom-panel-label-2">
+                  <span ><b data-translate="admin.menu.product" class="custom-panel-label-2"></b></span><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Season-->
+      <div has-any-authority ="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, Transfer_View" class="uk-width-medium-1-3 custom-box-padding-top">
+        <div class="md-card custom-cursor-poiter custom-panel" ng-click="goToSeason()">
+          <div class="md-card-content " >
+            <div class="uk-grid">
+              <div class="uk-width-medium-1-6 ">
+                <i class="material-icons md-48 uk-text-success">compare_arrows</i>
+              </div>
+              <div class="uk-width-medium-5-6 "  style="padding-left: 0px">
+                <div class="custom-panel-label-2">
+                  <span ><b data-translate="admin.menu.season" class="custom-panel-label-2"></b></span><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Procedure log-->
+      <div has-any-authority ="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, Procedure_Log_View" class="uk-width-medium-1-3 custom-box-padding-top">
+        <div class="md-card custom-cursor-poiter custom-panel" ng-click="goToProcedureLog()">
+          <div class="md-card-content " >
+            <div class="uk-grid">
+              <div class="uk-width-medium-1-6 ">
+                <i class="material-icons md-48 uk-text-success">view_list</i>
+              </div>
+              <div class="uk-width-medium-5-6 "  style="padding-left: 0px">
+                <div class="custom-panel-label-2">
+                  <span ><b data-translate="admin.menu.procedureLog" class="custom-panel-label-2"></b></span><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Device-->
+      <div has-any-authority ="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, Procedure_Log_View" class="uk-width-medium-1-3 custom-box-padding-top">
+        <div class="md-card custom-cursor-poiter custom-panel" ng-click="goToDevice()">
+          <div class="md-card-content " >
+            <div class="uk-grid">
+              <div class="uk-width-medium-1-6 ">
+                <i class="material-icons md-48 uk-text-success">devices</i>
+              </div>
+              <div class="uk-width-medium-5-6 "  style="padding-left: 0px">
+                <div class="custom-panel-label-2">
+                  <span ><b data-translate="admin.menu.device" class="custom-panel-label-2"></b></span><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Manual Control-->
+      <div has-any-authority ="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, Procedure_Log_View" class="uk-width-medium-1-3 custom-box-padding-top">
+        <div class="md-card custom-cursor-poiter custom-panel" ng-click="goToManualControl()">
+          <div class="md-card-content " >
+            <div class="uk-grid">
+              <div class="uk-width-medium-1-6 ">
+                <i class="material-icons md-48 uk-text-success">settings_cell</i>
+              </div>
+              <div class="uk-width-medium-5-6 "  style="padding-left: 0px">
+                <div class="custom-panel-label-2">
+                  <span ><b data-translate="admin.menu.manualControl" class="custom-panel-label-2"></b></span><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Auto Control-->
+      <div has-any-authority ="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, Procedure_Log_View" class="uk-width-medium-1-3 custom-box-padding-top">
+        <div class="md-card custom-cursor-poiter custom-panel" ng-click="goToAutoControl()">
+          <div class="md-card-content " >
+            <div class="uk-grid">
+              <div class="uk-width-medium-1-6 ">
+                <i class="material-icons md-48 uk-text-success">settings_input_component</i>
+              </div>
+              <div class="uk-width-medium-5-6 "  style="padding-left: 0px">
+                <div class="custom-panel-label-2">
+                  <span ><b data-translate="admin.menu.autoControl" class="custom-panel-label-2"></b></span><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Alarm Config-->
+      <div has-any-authority ="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, Procedure_Log_View" class="uk-width-medium-1-3 custom-box-padding-top">
+        <div class="md-card custom-cursor-poiter custom-panel" ng-click="goToAlarmConfig()">
+          <div class="md-card-content " >
+            <div class="uk-grid">
+              <div class="uk-width-medium-1-6 ">
+                <i class="material-icons md-48 uk-text-success">access_alarms</i>
+              </div>
+              <div class="uk-width-medium-5-6 "  style="padding-left: 0px">
+                <div class="custom-panel-label-2">
+                  <span ><b data-translate="admin.menu.alarmConfig" class="custom-panel-label-2"></b></span><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Alarm History-->
+      <div has-any-authority ="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, Procedure_Log_View" class="uk-width-medium-1-3 custom-box-padding-top">
+        <div class="md-card custom-cursor-poiter custom-panel" ng-click="goToAlarmHistory()">
+          <div class="md-card-content " >
+            <div class="uk-grid">
+              <div class="uk-width-medium-1-6 ">
+                <i class="material-icons md-48 uk-text-success">access_time</i>
+              </div>
+              <div class="uk-width-medium-5-6 "  style="padding-left: 0px">
+                <div class="custom-panel-label-2">
+                  <span ><b data-translate="admin.menu.alarmHistory" class="custom-panel-label-2"></b></span><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--uom type -->
+      <div has-any-authority ="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, Uom_Type_View" class="uk-width-medium-1-3 custom-box-padding-top">
+        <div class="md-card custom-cursor-poiter custom-panel" ng-click="goToUomType()">
+          <div class="md-card-content " >
+            <div class="uk-grid">
+              <div class="uk-width-medium-1-6 ">
+                <i class="material-icons md-48 uk-text-success">title</i>
+              </div>
+              <div class="uk-width-medium-5-6 "  style="padding-left: 0px">
+                <div class="custom-panel-label-2" >
+                  <span ><b data-translate="admin.menu.uomType" ></b></span><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--uom-->
+      <div has-any-authority ="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, Uom_View" class="uk-width-medium-1-3 custom-box-padding-top">
+        <div class="md-card custom-cursor-poiter custom-panel" ng-click="goToUom()">
+          <div class="md-card-content " >
+            <div class="uk-grid">
+              <div class="uk-width-medium-1-6 ">
+                <i class="material-icons md-48 uk-text-success">text_fields</i>
+              </div>
+              <div class="uk-width-medium-5-6 "  style="padding-left: 0px">
+                <div class="custom-panel-label-2">
+                  <span ><b  data-translate="admin.menu.uom" class="custom-panel-label-2">Log</b></span><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Camera-->
+      <div has-any-authority ="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN" class="uk-width-medium-1-3 custom-box-padding-top">
+        <div class="md-card custom-cursor-poiter custom-panel" ng-click="goToCamera()">
+          <div class="md-card-content">
+            <div class="uk-grid">
+              <div class="uk-width-medium-1-6">
+                <i class="material-icons md-48 uk-text-success">videocam</i>
+              </div>
+              <div class="uk-width-medium-5-6" style="padding-left: 0px">
+                <div class="custom-panel-label-2">
+                  <span ><b data-translate="admin.menu.camera" class="custom-panel-label-2"></b></span><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

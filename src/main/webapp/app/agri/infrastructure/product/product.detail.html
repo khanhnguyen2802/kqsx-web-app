@@ -1,0 +1,165 @@
+<div id="page_content" class="pageDetail">
+    <form name="form_create_product" id="form_create_product"
+          class="uk-form-stacked ng-pristine ng-invalid ng-invalid-required" novalidate="">
+        <div id="page_heading" data-uk-sticky="{ top: 48, media: 960 }">
+            <span class="route-header">
+                <a class="uk-text-success" ui-sref="infrastructure-manager" data-translate="admin.menu.infrastructure"></a>&nbsp;
+                 <i class="uk-icon-arrow-circle-right"></i>
+                <a class="uk-text-success" ui-sref="products" data-translate="infrastructure.product.name"></a>&nbsp;
+                <i class="uk-icon-arrow-circle-right"></i>
+                <span class="overflowLongText" value="product.name" is-input="false"></span>
+            </span>
+
+            <div class="uk-margin-small-top">
+                <button has-any-authority ="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN, Product_Update" ui-sref="products-edit({productId: product.id})" class="md-btn md-btn-success md-btn-small">
+                    <span class="uk-text-bold" data-translate="global.button.edit"></span>
+                </button>
+                <button has-any-authority ="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN, Product_Create" ui-sref="products-create" class="md-btn md-btn-success md-btn-small">
+                    <span class="uk-text-bold" data-translate="global.button.create"></span>
+                </button>
+            </div>
+        </div>
+
+        <div id="page_content_inner">
+            <jhi-alert></jhi-alert><modal-alert></modal-alert>
+
+            <div class="md-card">
+                <div class="md-card-content">
+                    <div class="uk-grid">
+                        <div class="uk-width-1-1">
+                            <b data-translate="infrastructure.product.general"></b>
+                        </div>
+                    </div>
+                    <div class="uk-grid">
+                        <div class="uk-width-medium-3-5">
+
+                            <div class="uk-grid">
+                                <div class="uk-width-1-3 text-padding-top ">
+                                    <label class="label-bold  ng-scope"
+                                           data-translate="infrastructure.product.column.code"></label>
+                                </div>
+                                <div class="uk-width-2-3 ">
+                                    <input readonly
+                                           ng-model="product.code"
+                                           class="md-input ng-isolate-scope md-input-processed" type="text"
+                                           md-input/>
+                                </div>
+                            </div>
+
+                            <div class="uk-grid">
+                                <div class="uk-width-1-3 text-padding-top ">
+                                    <label class="label-bold  ng-scope"
+                                           data-translate="infrastructure.product.column.category"></label><span class="req"> *</span>
+                                </div>
+                                <div class="uk-width-2-3 ">
+                                    <span class="overflowLongText" value="product.productCategory.categoryName" is-input="true"></span>
+                                </div>
+                            </div>
+
+                            <div class="uk-grid">
+                                <div class="uk-width-1-3 text-padding-top ">
+                                    <label class="label-bold  ng-scope"
+                                           data-translate="infrastructure.product.column.name"></label><span class="req"> *</span>
+                                </div>
+                                <div class="uk-width-2-3 ">
+                                    <span class="overflowLongText" value="product.name" is-input="true"></span>
+                                </div>
+                            </div>
+
+                            <div class="uk-grid">
+                                <div class="uk-width-1-3 text-padding-top ">
+                                    <label class="label-bold  ng-scope"
+                                           data-translate="infrastructure.product.column.unit"></label><span class="req"> *</span>
+                                </div>
+                                <div class="uk-width-2-3 ">
+                                    <div class="parsley-row" ng-if="product.uomUnit">
+                                        <span class="overflowLongText" value="product.uomUnit.name" is-input="true"></span>
+                                    </div>
+                                    <input ng-if="!product.uomUnit" readonly
+                                           ng-value=""
+                                           class="md-input ng-isolate-scope md-input-processed" type="text"
+                                           md-input/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 10px;" class="uk-width-1-5">
+                        </div>
+						<!-- <div class="uk-width-medium-2-10">
+                                <div class="user_heading_avatar" data-provides="fileinput"
+                                     ng-mouseenter="user.mouseEnter = true"
+                                     ng-mouseleave="user.mouseEnter = false" >
+
+                                    <img ng-if="user.userAvatar" class="uk-border-circle" ng-src="/attachment/images/{{user.userAvatar}}" alt="user avatar" width="200" height="200"/>
+                                    <img ng-if="!user.userAvatar" class="uk-border-circle" ng-src="assets/img/avatars/avatar.jpg" alt="user avatar" width="200" height="200"/>
+                                </div>
+                            </div> -->
+                            
+                        <div class="uk-width-medium-1-5">
+                            <div class="user_heading_avatar custom-avatar-center" data-provides="fileinput"
+                                 ng-mouseenter="product.mouseEnter = true"
+                                 ng-mouseleave="product.mouseEnter = false">
+                                <img ng-if="product.avatar" class="uk-border-circle"
+                                     ng-src="/attachment/images/{{product.avatar}}" alt="product avatar" width="200"
+                                     height="200"/>
+                                <img ng-if="!product.avatar" class="uk-border-circle"
+                                     ng-src="assets/img/avatars/avatar.jpg" alt="product avatar" width="200"
+                                     height="200"/>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="md-card">
+                <div class="md-card-content">
+                    <div class="uk-grid">
+                        <div class="uk-width-1-1">
+                            <b data-translate="infrastructure.product.detail"></b>
+                        </div>
+                    </div>
+                    <div class="uk-grid">
+                        <div class="uk-width-medium-3-5">
+
+                            <div class="uk-grid">
+                                <div class="uk-width-1-3 text-padding-top ">
+                                    <label class="label-bold  ng-scope"
+                                           data-translate="infrastructure.product.column.description"></label>
+                                </div>
+                                <div class="uk-width-2-3 ">
+                                	<textarea cols="50" readonly="readonly" class="md-input ng-isolate-scope md-input-processed border-around"
+		                                      data-parsley-maxlength="1000"
+		                                      data-parsley-maxlength-message="{{'global.messages.maxLength1000' | translate}}"
+		                                      ng-model="product.description" md-input></textarea>
+                                </div>
+                            </div>
+
+                            <div class="uk-grid">
+                                <div class="uk-width-1-3 text-padding-top ">
+                                    <label class="label-bold  ng-scope"
+                                           data-translate="infrastructure.product.column.package"></label>
+                                </div>
+                                <div class="uk-width-2-3 ">
+                                    <div class="parsley-row" ng-if="product.packageUnit">
+                                        <span class="overflowLongText" value="product.packageUnit.name" is-input="true"></span>
+                                    </div>
+                                    <input ng-if="!product.packageUnit" readonly
+                                           ng-value=""
+                                           class="md-input ng-isolate-scope md-input-processed" type="text"
+                                           md-input/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div style="margin-top: 10px;" class="uk-width-2-5">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>

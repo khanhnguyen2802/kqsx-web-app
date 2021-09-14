@@ -1,0 +1,42 @@
+{
+  "qrCode": {
+    "print_stamp": "Print stamp",
+    "print_amount": "Print amount",
+    "print": "Print",
+    "list": "List",
+    "column": {
+      "code": "QR code",
+      "season": "Season",
+      "product": "Product",
+      "packaging_date": "Packaging date",
+      "number_of_print": "Number of print",
+      "action": "Action"
+    },
+    "field": {
+      "area": "Area",
+      "season": "Season",
+      "product": "Product",
+      "season_code": "Season code",
+      "packaging_date": "Packaging date"
+    },
+    "placeholder": {
+      "selectArea": "Select Area",
+      "selectSeason": "Select Season",
+      "selectProduct": "Select Product"
+    },
+    "detail": {
+      "farm_info": "Farm info",
+      "product_info": "Product information",
+      "product": "Product",
+      "packaging_date": "Packaging date",
+      "description": "Description",
+      "production_info":"Production information",
+      "farm": "Farm",
+      "address": "Address",
+      "area": "Area",
+      "phone": "Phone",
+      "season": "Season",
+      "code": "QRCode Code"
+    }
+  }
+}

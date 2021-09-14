@@ -1,0 +1,232 @@
+<div id="page_content" class="pageDetail">
+    <form name="form_create_product" id="form_create_product"
+          class="uk-form-stacked ng-pristine ng-invalid ng-invalid-required" novalidate="">
+        <div id="page_heading" data-uk-sticky="{ top: 48, media: 960 }">
+            <span class="route-header">
+                <a class="uk-text-success" ui-sref="infrastructure-manager" data-translate="admin.menu.infrastructure"></a>&nbsp;
+                 <i class="uk-icon-arrow-circle-right"></i>
+                <a class="uk-text-success" ui-sref="products" data-translate="infrastructure.product.name"></a>&nbsp;
+                <i class="uk-icon-arrow-circle-right"></i>
+                <a class="uk-text-success" ui-sref="products-detail({productId: product.id})">
+                    <span class="overflowLongText" value="product.name" is-input="false"></span>
+                </a>&nbsp;
+                <i class="uk-icon-arrow-circle-right"></i>
+                <span data-translate="global.button.edit"></span>
+            </span>
+            <br/>
+            <div class="uk-margin-small-top">
+                <button ng-click="submit(false)" type="submit" class="md-btn md-btn-success md-btn-small"><span
+                        class="uk-text-bold" data-translate="global.button.save"></span></button>
+                <button ng-click="submit(true)" type="submit" class="md-btn md-btn-success md-btn-small"><span
+                        class="uk-text-bold" data-translate="global.button.saveAndClose"></span></button>
+                <a ui-sref="products-detail({productId: product.id})" class="md-btn md-btn-small"><span class="uk-text-bold" data-translate="global.button.cancel"></span></a>
+            </div>
+        </div>
+
+        <div id="page_content_inner">
+            <jhi-alert></jhi-alert><modal-alert></modal-alert>
+
+            <div class="md-card">
+                <div class="md-card-content">
+                    <div class="uk-grid">
+                        <div class="uk-width-1-1">
+                            <b data-translate="infrastructure.product.general"></b>
+                        </div>
+                    </div>
+                    <div class="uk-grid">
+                        <div class="uk-width-medium-3-5">
+
+                            <div class="uk-grid">
+                                <div class="uk-width-1-3 text-padding-top ">
+                                    <label class="label-bold  ng-scope"
+                                           data-translate="infrastructure.product.column.code"></label>
+                                </div>
+                                <div class="uk-width-2-3 ">
+                                    <input readonly
+                                           ng-model="product.code"
+                                           class="md-input ng-isolate-scope md-input-processed" type="text"
+                                           md-input/>
+                                </div>
+                            </div>
+
+                            <div class="uk-grid">
+                                <div class="uk-width-1-3 text-padding-top ">
+                                    <label class="label-bold  ng-scope"
+                                           data-translate="infrastructure.product.column.category"></label>
+                                    <span class="req">*</span>
+                                </div>
+                                <div class="uk-width-2-3 ">
+                                    <div class="parsley-row">
+                                        <input id="categoryCbb" name="categoryCbb"
+                                        		ng-disabled ="assignedSeason"
+                                               data-parsley-required-message="{{'global.messages.required' | translate}}"
+                                               data-parsley-trigger="focusin focusout"
+                                               ng-required="true"
+                                               position="bottom"
+                                               config="ComboBox['categoryCbb'].config"
+                                               options="ComboBox['categoryCbb'].options"
+                                               ng-model="product.categoryId"
+                                               table="ComboBox['categoryCbb'].table"
+                                               column="ComboBox['categoryCbb'].column"
+                                               scope-controller="ComboBox['categoryCbb'].scope" selectize>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="uk-grid">
+                                <div class="uk-width-1-3 text-padding-top ">
+                                    <label class="label-bold  ng-scope"
+                                           data-translate="infrastructure.product.column.name"></label>
+                                    <span class="req">*</span>
+                                </div>
+                                <div class="uk-width-2-3 ">
+                                	<div class="parsley-row">
+                                    	<input
+                                            ng-model="product.name"
+                                            ng-readonly ="assignedSeason"
+                                            ng-required="true"
+                                            data-parsley-maxlength="256"
+                                            data-parsley-maxlength-message="{{'global.messages.maxLength256' | translate}}"
+                                            data-parsley-required-message="{{'global.messages.required' | translate}}"
+                                            class="md-input ng-isolate-scope md-input-processed" type="text"
+                                            md-input/>
+                                	</div>
+                                </div>
+                            </div>
+
+                            <div class="uk-grid">
+                                <div class="uk-width-1-3 text-padding-top ">
+                                    <label class="label-bold ng-scope"
+                                           data-translate="infrastructure.product.column.unit"></label><span class="req"> *</span>
+                                </div>
+                                <div class="uk-width-2-3 ">
+                                    <div class="parsley-row">
+                                        <input id="unitCbb" name="unitCbb"
+                                    		required="required"
+                                           	data-parsley-required-message="{{'global.messages.required' | translate}}"
+                                           	data-parsley-trigger="focusin focusout"
+                                           	position="bottom"
+                                           	config="ComboBox['unitCbb'].config"
+                                           	options="ComboBox['unitCbb'].options"
+                                           	ng-model="product.unitId"
+                                           	table="ComboBox['unitCbb'].table"
+                                           	column="ComboBox['unitCbb'].column"
+                                           	scope-controller="ComboBox['unitCbb'].scope" selectize>
+                                    </div>
+                                </div>
+                            </div>
+
+<!--                            <div class="uk-grid">-->
+<!--                                <div class="uk-width-1-3 text-padding-top ">-->
+<!--                                    <label class="label-bold  ng-scope"-->
+<!--                                           data-translate="infrastructure.product.column.farm"></label>-->
+<!--                                    <span class="req">*</span>-->
+<!--                                </div>-->
+<!--                                <div class="uk-width-2-3 ">-->
+<!--                                    <div class="parsley-row">-->
+<!--                                        <input id="farmCbb" name="farmCbb"-->
+<!--                                               ng-required="true"-->
+<!--                                               data-parsley-required-message="{{'global.messages.required' | translate}}"-->
+<!--                                               data-parsley-trigger="focusin focusout"-->
+<!--                                               position="bottom"-->
+<!--                                               config="ComboBox['farmCbb'].config"-->
+<!--                                               options="ComboBox['farmCbb'].options"-->
+<!--                                               ng-model="product.tenantId"-->
+<!--                                               table="ComboBox['farmCbb'].table"-->
+<!--                                               column="ComboBox['farmCbb'].column"-->
+<!--                                               scope-controller="ComboBox['farmCbb'].scope" selectize>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                        </div>
+
+                        <div style="margin-top: 10px;" class="uk-width-1-5">
+                        </div>
+
+                        <div class="uk-width-medium-1-5">
+                            <div class="user_heading_avatar" data-provides="fileinput"
+                                 ng-mouseenter="user.mouseEnter = true"
+                                 ng-mouseleave="user.mouseEnter = false">
+
+                                <img ng-if="product.avatar || user.userAvatarBase64" class="uk-border-circle"
+                                     ng-src="{{user.userAvatarBase64 ? user.userAvatarBase64 : '/attachment/images/' + product.avatar}}"
+                                     alt="product avatar" width="200" height="200"/>
+                                <img ng-if="!product.avatar && !user.userAvatarBase64" class="uk-border-circle"
+                                     ng-src="assets/img/avatars/avatar.jpg" alt="product avatar" width="200" height="200"/>
+
+                                <div class="user_avatar_controls">
+                                    <span class="btn-file uk-form-file" title="Maximum size: 64K">
+                                        <span class="fileinput-new"><i class="material-icons">&#xE2C6;</i></span>
+                                        <input-upload></input-upload>
+                                    </span>
+                                    <a ng-show="user.mouseEnter && (product.avatar || user.userAvatarBase64)"
+                                       ng-click="deleteUserAvatar()" class="btn-file fileinput-exists js-uk-prevent"
+                                       title="Delete"><i class="material-icons">&#xE5CD;</i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="md-card">
+                <div class="md-card-content">
+                    <div class="uk-grid">
+                        <div class="uk-width-1-1">
+                            <b data-translate="infrastructure.product.detail"></b>
+                        </div>
+                    </div>
+                    <div class="uk-grid">
+                        <div class="uk-width-medium-3-5">
+
+                            <div class="uk-grid">
+                                <div class="uk-width-1-3 text-padding-top ">
+                                    <label class="label-bold  ng-scope"
+                                           data-translate="infrastructure.product.column.description"></label>
+                                </div>
+                                <div class="uk-width-2-3 ">
+                                	<div class="parsley-row">
+                                    	<textarea cols="50" class="md-input ng-isolate-scope md-input-processed border-around"
+                                    		  ng-readonly ="assignedSeason"
+		                                      data-parsley-maxlength="1000"
+		                                      data-parsley-maxlength-message="{{'global.messages.maxLength1000' | translate}}"
+		                                      ng-model="product.description" md-input></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="uk-grid">
+                                <div class="uk-width-1-3 text-padding-top ">
+                                    <label class="label-bold  ng-scope"
+                                           data-translate="infrastructure.product.column.unit"></label>
+                                </div>
+                                <div class="uk-width-2-3 ">
+                                    <div class="parsley-row">
+                                        <input id="packageCbb" name="packageCbb"
+                                               data-parsley-required-message="{{'global.messages.required' | translate}}"
+                                               data-parsley-trigger="focusin focusout"
+                                               position="bottom"
+                                               config="ComboBox['packageCbb'].config"
+                                               options="ComboBox['packageCbb'].options"
+                                               ng-model="product.packageId"
+                                               table="ComboBox['packageCbb'].table"
+                                               column="ComboBox['packageCbb'].column"
+                                               scope-controller="ComboBox['packageCbb'].scope" selectize>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div style="margin-top: 10px;" class="uk-width-2-5">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+</div>

@@ -1,0 +1,222 @@
+<div id="page_content">
+    <div id="page_heading" data-uk-sticky="{ top: 48, media: 960 }">
+        <div class="heading_actions action-padding-top">
+        </div>
+        <span class="route-header">
+            <a class="uk-text-success" ui-sref="dashboard" data-translate="admin.menu.dashboard"></a>&nbsp;<i class="uk-icon-arrow-circle-right"></i>
+            <span data-translate="admin.menu.myProfile"></span>
+        </span>
+        <br/>
+        <div class="uk-margin-small-top">
+            <a ui-sref="user-edit" class="md-btn md-btn-small md-btn-success"><span class="uk-text-bold" data-translate="global.button.edit"></span></a>
+            <!--<button class="md-btn  md-btn-small md-btn-success " data-uk-modal="{target:'#password_modal'}"><span class="uk-text-bold"  data-translate="admin.user.column.changePassword"></span></button>-->
+            <a ui-sref="dashboard" class="md-btn  md-btn-small"><span class="uk-text-bold" data-translate="global.button.back"></span></a>
+        </div>
+    </div>
+    <div id="page_content_inner">
+        <jhi-alert></jhi-alert><modal-alert></modal-alert>
+        <div class="uk-grid data-uk-grid-margin">
+            <div class="uk-width-medium-1-1">
+                <div class="md-card">
+                    <div class="md-card-content">
+                        <div class="uk-grid" data-uk-grid-margin="">
+                            <div class="uk-width-medium-2-10">
+                                <div class="user_heading_avatar" data-provides="fileinput"
+                                     ng-mouseenter="user.mouseEnter = true"
+                                     ng-mouseleave="user.mouseEnter = false" >
+
+                                    <img ng-if="user.userAvatar" class="uk-border-circle" ng-src="/attachment/images/{{user.userAvatar}}" alt="user avatar" width="200" height="200"/>
+                                    <img ng-if="!user.userAvatar" class="uk-border-circle" ng-src="assets/img/avatars/avatar.jpg" alt="user avatar" width="200" height="200"/>
+                                </div>
+
+                            </div>
+                            <div class="uk-width-medium-8-10">
+                                <!--Line 1-->
+                                <div class="uk-grid">
+                                    <div class="uk-width-medium-1-2">
+                                        <label class="label-bold" for="email" data-translate="admin.user.column.email"></label>
+                                        <input readonly data-parsley-type-message={{email_msg}} data-parsley-required-message={{required_msg}} ng-model="user.email" id="email" type="email" name="email" data-parsley-trigger="change" required="" class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                    </div>
+                                </div>
+                                <!--Line 2-->
+                                <div class="uk-grid">
+                                    <div class="uk-width-medium-1-2">
+                                        <label class="label-bold" data-translate="admin.user.column.firstName"></label>
+                                        <input readonly class="md-input ng-isolate-scope md-input-processed" type="text" ng-model="user.fullName" md-input />
+                                    </div>
+
+                                    <div class="uk-width-medium-1-2">
+                                        <div class="parsley-row">
+                                            <label class="label-bold" for="phone" data-translate="admin.user.column.phone"></label>
+                                            <input id="phone" ng-model="user.phone" readonly type="text" name="phone" type="text" class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                            <span class="md-input-bar "></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-grid">
+                                    <div class="uk-width-medium-1-2">
+                                        <label class="label-bold" >Doanh nghiệp</label>
+                                        <input readonly class="md-input ng-isolate-scope md-input-processed" type="text" ng-model="user.organizationName" md-input />
+                                    </div>
+
+                                    <div class="uk-width-medium-1-2">
+                                        <div class="parsley-row">
+                                            <label class="label-bold" >Địa chỉ</label>
+                                            <input readonly ng-model="user.address" readonly type="text" name="phone" type="text" class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Line 3-->
+<!--                                <div class="uk-grid">-->
+<!--                                    <div class="uk-width-medium-1-2">-->
+<!--                                        <label class="label-bold" data-translate="admin.user.column.created"></label>-->
+<!--                                        <input value="{{user.created | date: 'dd-MM-yyyy HH:mm:ss'}}" readonly class="md-input ng-isolate-scope md-input-processed" md-input="">-->
+<!--                                        <span class="md-input-bar "></span>-->
+<!--                                    </div>-->
+<!--                                    <div class="uk-width-medium-1-2">-->
+<!--                                        <label class="label-bold" data-translate="admin.user.column.updated"></label>-->
+<!--                                        <input value="{{user.updated | date: 'dd-MM-yyyy HH:mm:ss'}}" readonly class="md-input ng-isolate-scope md-input-processed" md-input="">-->
+<!--                                        <span class="md-input-bar "></span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+                                <!--Line 4 -->
+<!--                                <div class="uk-grid">-->
+<!--                                    <div class="uk-width-medium-1-2">-->
+<!--                                        <label class="label-bold" data-translate="admin.user.column.createdBy"></label>-->
+<!--                                        <input ng-model="user.createdBy" readonly type="text" class="md-input ng-isolate-scope md-input-processed" md-input="">-->
+<!--                                        <span class="md-input-bar "></span>-->
+<!--                                    </div>-->
+<!--                                    <div class="uk-width-medium-1-2">-->
+<!--                                        <label class="label-bold" data-translate="admin.user.column.updatedBy"></label>-->
+<!--                                        <input ng-model="user.updatedBy" readonly type="text" class="md-input ng-isolate-scope md-input-processed" md-input="">-->
+<!--                                        <span class="md-input-bar "></span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+                            </div>
+                        </div>
+
+                        <br>
+                        <ul class="uk-tab" data-uk-tab="{connect:'#contract_tabs'}">
+                            <li class="uk-active"><a href="#" ng-click="changeTab(1)"><h4 class="heading_a" data-translate="admin.user.permissionInformation"></h4></a></li>
+                            <li ><a href="#" ng-click="changeTab(2)"><h4 class="heading_a" data-translate="admin.user.otherSetting"></h4></a></li>
+                        </ul>
+                        <ul id="contract_tabs" class="uk-switcher uk-margin" >
+                            <li>
+                                <div class="uk-grid" data-uk-grid-margin="">
+                                    <div class="uk-width-medium-1-1 ">
+                                        <label class="uk-form-label label-bold" >Trạng trại</label>
+                                        <div class="custom-box">
+                                            <span ng-repeat="o in user.tenants">
+                                                <a ng-show="o.type==2" ui-sref="farms-detail({farmId: o.id })" class="md-btn md-btn-small custom-item" >{{o.name}}</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="uk-grid" style="margin-bottom: 200px">
+                                    <div class="uk-width-medium-1-1">
+                                        <div>
+                                            <label class="uk-form-label label-bold" data-translate="admin.user.column.roles"></label>
+                                            <div class="custom-box">
+                                                <span ng-repeat="o in user.roles">
+                                                    <a ui-sref="roles-detail({roleId: o.id })" class="md-btn md-btn-small custom-item" >{{o.name}}</a>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="uk-grid" data-uk-grid-margin="">
+                                    <div class="uk-width-medium-1-6 ">
+                                        <label class="uk-form-label label-bold" data-translate="admin.user.notificationSetting"></label>:
+                                    </div>
+                                    <div class="uk-width-medium-2-6 ">
+                                        <a class="uk-form-label " data-translate="admin.menu.setting"></a>
+                                    </div>
+                                    <div class="uk-width-medium-1-6 ">
+                                        <label class="uk-form-label label-bold" data-translate="admin.user.column.password"></label>:
+                                    </div>
+                                    <div class="uk-width-medium-2-6 ">
+                                        <a class="uk-form-label " data-uk-modal="{target:'#password_modal'}" data-translate="admin.user.column.changePassword"></a>
+                                    </div>
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal change password -->
+    <div class="uk-modal" id="password_modal">
+        <jhi-alert></jhi-alert><modal-alert></modal-alert>
+        <form name="changePassForm" id="changePassForm" class="uk-form-stacked ng-pristine ng-invalid ng-invalid-required" novalidate="">
+            <div class="uk-modal-dialog uk-modal-dialog-small">
+                <div class="uk-modal-header" style="margin: 0 -24px 0px">
+                    <span><span class="uk-modal-title" data-translate="admin.user.column.changePassword"></span><a class="uk-modal-close" style="float: right;"><i class="material-icons">&#xE14C;</i></a></span>
+                </div>
+                <hr>
+                <div class="uk-grid">
+                    <div class="uk-width-medium-1-1">
+                        <label class="label-bold" data-translate="admin.user.column.currentPassword"></label>*
+                        <div class="parsley-row">
+                             <input data-parsley-trigger="change"
+                        	   data-parsley-required-message="{{'admin.messages.required' | translate}}"
+                               data-parsley-length="[6,256]"
+                               data-parsley-length-message="{{'admin.messages.passwordPattern' | translate}}"
+                               ng-model="currentPassword"
+                               type="password"
+                               name="currentPassword"
+                               id="currentPassword"
+                               ng-required="!isAdmin"
+                               ng-change="onChangeCurrentPass()"
+                               class="md-input ng-isolate-scope md-input-processed" md-input="">
+                            <span class="md-input-bar" style="color: #e53935" ng-show="errorCurrentPass" data-translate="error.userAndPermission.currentPasswordInvalid"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-grid">
+                    <div class="uk-width-medium-1-1">
+                        <label class="label-bold" data-translate="admin.user.column.newPassword"></label>*
+                        <div class="parsley-row">
+                            <input data-parsley-trigger="change"
+                        	   data-parsley-required-message="{{'admin.messages.required' | translate}}"
+                               data-parsley-length="[6,256]"
+                               data-parsley-length-message="{{'admin.messages.passwordPattern' | translate}}"
+                               ng-model="newPassword"
+                               type="password" name="newPassword" id="newPassword"
+                               required="" class="md-input ng-isolate-scope md-input-processed" md-input="">
+                            <span class="md-input-bar "></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-grid">
+                    <div class="uk-width-medium-1-1">
+                        <label class="label-bold" data-translate="admin.user.column.confirmPassword"></label>*
+                        <div class="parsley-row">
+                            <input data-parsley-trigger="change"
+                        	   data-parsley-required-message="{{'admin.messages.required' | translate}}"
+                        	   data-parsley-equalto="#newPassword"
+                               data-parsley-equalto-message="{{'admin.messages.confirmPassword' | translate}}"
+                               data-parsley-length="[6,256]"
+                               data-parsley-length-message="{{'admin.messages.passwordPattern' | translate}}"
+                               ng-model="confirmPassword" type="password"
+                               name="confirmPassword" id="confirmPassword"
+                               required="" class="md-input ng-isolate-scope md-input-processed" md-input="">
+                            <span class="md-input-bar "></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="uk-modal-footer uk-text-right">
+                    <button  class=" md-btn  md-btn-success md-btn-small" ng-click="changePass()" type="submit"><span class="uk-text-bold" data-translate="admin.user.column.changePassword"></span></button>
+                    <button  class="uk-modal-close md-btn  md-btn-default md-btn-small"><span class="uk-text-bold" data-translate="global.button.cancel" id="btnCancel"></span></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

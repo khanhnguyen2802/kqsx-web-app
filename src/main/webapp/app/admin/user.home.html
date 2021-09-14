@@ -1,0 +1,126 @@
+<div id="page_content">
+    <div id="page_heading" data-uk-sticky="{ top: 48, media: 960 }" class="header-fixed">
+        <!--<div class="heading_actions action-padding-top">-->
+            <!--<div data-uk-dropdown="{mode:'click'}">-->
+                <!--<i class="md-icon material-icons">&#xE5D4;</i>-->
+                <!--<div class="uk-dropdown">-->
+                    <!--<ul class="uk-nav">-->
+                        <!--<li><a id="activateBtn" class="hideElement" ng-click="activate()" data-translate="global.common.active"></a></li>-->
+                        <!--<li><a id="deactivateBtn" class="hideElement" ng-click="deactivate()" data-translate="global.common.archived"></a></li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <span class="route-header">
+            <!--<a class="uk-text-success" ui-sref="administration" data-translate="admin.menu.administration"></a>&nbsp;<i class="uk-icon-arrow-circle-right"></i>-->
+            <a class="uk-text-success" ui-sref="administration" data-translate="admin.menu.userOrganization"></a>&nbsp;<i class="uk-icon-arrow-circle-right"></i>
+            <a class="uk-text-success" ui-sref="organizations-detail({organizationId: organizationId })" ng-if="organizationId">{{organizationName}} &nbsp;<i class="uk-icon-arrow-circle-right"></i></a>
+            <span data-translate="admin.user.list"></span>
+        </span>
+        </br>
+        <div class="uk-margin-small-top">
+            <a has-any-authority ="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, User_Create" ui-sref="users-create" class="md-btn md-btn-success md-btn-small"><span class="uk-text-bold" data-translate="global.button.create"></span></a>
+            <button has-any-authority ="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN, User_Delete" id="deleteBtn" class="md-btn md-btn-small hideElement" ng-click="defaultDelete()"><span class="uk-text-bold" data-translate="global.button.delete"></span></button>
+        </div>
+    </div>
+    <div id="page_content_inner">
+        <jhi-alert></jhi-alert><modal-alert></modal-alert>
+        <div class="md-card">
+            <div class="md-card-content">
+                <div class="uk-overflow-container uk-margin-bottom table-height-fixed">
+                    <table class="hoverTable uk-table uk-table-align-vertical uk-table-striped uk-table-nowrap tablesorter tablesorter-altair table-fixed" id="users">
+                        <thead>
+                        <tr>
+                            <th data-name="Select"><input type="checkbox" class="ts_checkbox_all"></th>
+                            <th><th-content table="TABLES['users']" label="'admin.user.column.email'"     column="'email'"></th-content></th>
+                            <th><th-content table="TABLES['users']" label="'admin.user.column.fullName'"  column="'fullName'"></th-content></th>
+                            <th><th-content table="TABLES['users']" label="'admin.user.column.created'"   column="'created'"></th-content></th>
+                            <th><th-content table="TABLES['users']" label="'admin.user.column.createdBy'" column="'createdBy'"></th-content></th>
+                            <th><th-content table="TABLES['users']" label="'admin.user.column.updated'"   column="'updated'"></th-content></th>
+                            <th><th-content table="TABLES['users']" label="'admin.user.column.updatedBy'" column="'updatedBy'"></th-content></th>
+                            <th><th-content table="TABLES['users']" label="'admin.user.column.status'"    column="'active'"></th-content></th>
+                            <th><strong>Thao tác</strong></th>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><default-filter table="TABLES['users']" column="'email'"></td>
+                            <td><default-filter table="TABLES['users']" column="'fullName'"></td>
+                            <td><date-picker-filter table="TABLES['users']" column="'created'"></date-picker-filter></td>
+                            <td><default-filter table="TABLES['users']" column="'createdBy'"></td>
+                            <td><date-picker-filter table="TABLES['users']" column="'updated'"></date-picker-filter></td>
+                            <td><default-filter table="TABLES['users']" column="'updatedBy'"></td>
+                            <td><active-search-filter label="'global.placeholder.search' | translate" table="TABLES['users']"
+                                                      isnullparamter="true"></active-search-filter></td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="user in users" on-last-repeat ng-class="{'hoverRow': !user.unRemove, 'custom-un-remove': user.unRemove}" title="{{user.unRemove}}">
+                            <td><input id="{{user.id}}" type="checkbox" class="ts_checkbox" data-md-icheck icheck ng-model="row_select"></td>
+                            <td><a ui-sref="users-detail({userId: user.id })">{{user.email}}</a></td>
+                            <td>{{user.fullName}}</td>
+                            <td>{{user.created | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+                            <td>{{user.createdBy}}</td>
+                            <td>{{user.updated | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+                            <td>{{user.updatedBy}}</td>
+                            <td ng-if="user.active == 1" style="text-align: center">
+                                <span class="uk-badge uk-badge-success" data-translate="global.common.active"></span>
+                                <!--<i ng-click="handleActive(user.id,user.email,user.active)"
+                                   class="uk-icon-toggle-on uk-icon-medium uk-text-success custom-cursor-poiter"></i>-->
+                            </td>
+                            <td ng-if="user.active == 0" style="text-align: center">
+                                <span class="uk-badge uk-badge-danger" data-translate="global.common.archived"></span>
+                                <!--<i ng-click="handleActive(user.id,user.email,user.active)"
+                                   class="uk-icon-toggle-off uk-icon-medium uk-text-danger custom-cursor-poiter"></i>-->
+                            </td>
+                            <td ng-if="user.active == 2" style="text-align: center">
+                                <span class="uk-badge uk-badge-warning" data-translate="global.common.register"></span>
+                            </td>
+                            <td style="text-align: center">
+                                <a has-any-authority ="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN, User_Update" ui-sref="users-edit({ userId: user.id })" title="Edit" class="material-icons">open_in_new</a>&nbsp;
+                                <a has-any-authority ="ROLE_SYSTEM_ADMIN, ROLE_FARM_ADMIN, User_Delete" ng-click="deleteOne(user.id)" title="Delete" class="material-icons">delete</a>&nbsp;
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="ts_pager" id="table_user_pager">
+                    <ul class="uk-pagination ts_pager">
+                        <li ng-click="selectPageClickHandle()" data-uk-tooltip title="{{selectPage}}">
+                            <input ng-change="selectPageHandle('users')" id="user_selectize_page" type="text"
+                                   config="TABLES['users'].selectize_page_config" options="TABLES['users'].selectize_page_options"
+                                   ng-model="TABLES['users'].selectize_page" name="TABLES['users'].selectize_page" selectize>
+                        </li>
+                        <li><a href="javascript:void(0)" class="firstPage" ng-click="handleFirstPage('users')"><i class="uk-icon-angle-double-left"></i></a></li>
+                        <li><a href="javascript:void(0)" class="prevPage" ng-click="handlePreviousPage('users')"><i class="uk-icon-angle-left"></i></a></li>
+                        <li><span class="pageDisplay">1-20/50</span></li>
+                        <li><a href="javascript:void(0)" class="nextPage" ng-click="handleNextPage('users')"><i class="uk-icon-angle-right"></i></a></li>
+                        <li><a href="javascript:void(0)" class="lastPage" ng-click="handleLastPage('users')"><i class="uk-icon-angle-double-right"></i></a></li>
+                        <li data-uk-tooltip title="{{pageSize}}">
+                            <input ng-change="selectPageNumHandle('users')" id="user_selectize_pageNum" type="text"
+                                   config="TABLES['users'].selectize_pageNum_config" options="TABLES['users'].page_size_option"
+                                   ng-model="TABLES['users'].selectize_pageNum" name="TABLES['users'].selectize_pageNum" selectize>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal active -->
+<div class="uk-modal" id="active_modal">
+    <div class="uk-modal-dialog uk-modal-dialog-small">
+        <div class="uk-modal-header" style="margin: 0 -24px 0px">
+            <span><span class="uk-modal-title">Quản trị người dùng</span><a class="uk-modal-close" style="float: right;"><i class="material-icons">&#xE14C;</i></a></span>
+        </div>
+        <hr>
+        <span>{{activeMsg}}</span>&nbsp;<b>{{userEmail}}</b>?
+
+        <div class="uk-modal-footer uk-text-right">
+            <button  class="uk-modal-close md-btn  md-btn-success md-btn-small" ng-click="activeOne()"><span class="uk-text-bold" data-translate="global.button.ok"></span></button>
+            <button  class="uk-modal-close md-btn  md-btn-default md-btn-small"><span class="uk-text-bold" data-translate="global.button.cancel"></span></button>
+        </div>
+    </div>
+</div>
+<button id="activeBtn" ng-show="false" data-uk-modal="{target:'#active_modal'}">active</button>

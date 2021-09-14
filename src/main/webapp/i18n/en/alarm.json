@@ -1,0 +1,34 @@
+{
+    "alarm": {
+        "name": "Alarm",
+        "config": "Configuration",
+        "history": "History",
+        "fieldHis": {
+            "name": "Alarm Name",
+            "raised": "Raised",
+            "content": "Content",
+            "value": "Value",
+            "farm": "Farm",
+            "area": "Area",
+            "areaShortName": "Short name",
+            "belongGW": "Gateway",
+            "device": "Device",
+            "method": "Method",
+            "value": "Value",
+            "action": "Action",
+            "activated": "Activated",
+            "deactivate": "Deactivate",
+            "status": "Status",
+            "deviceCategory": "Device category"
+        },
+        "operator": {
+            "null": "Null",
+            "OutOfRange" : "Out Of Range",
+            "brokeWaterPipe" : "Broke the water pipe",
+            "min": "Below",
+            "max": "Above",
+            "InOfRange": "In Of Range"
+        },
+        "greaterAbove": "Above must be greater than below"
+    }
+}

@@ -1,0 +1,438 @@
+<div id="page_content">
+    <form name="device_form" id="device_form" class="uk-form-stacked ng-pristine ng-invalid ng-invalid-required"
+          novalidate="">
+        <div id="page_heading" data-uk-sticky="{ top: 48, media: 960 }">
+            <span class="route-header">
+                <a class="uk-text-success" ui-sref="device-manager">Điều khiển</a>&nbsp;<i
+                    class="uk-icon-arrow-circle-right"></i>
+                <a class="uk-text-success" ui-sref="devices">Thiết bị</a>&nbsp;<i
+                    class="uk-icon-arrow-circle-right"></i>
+                <span class="overflowLongText" value="device.alias" is-input="false"></span>
+            </span>
+            <br/>
+            <div class="uk-margin-small-top">
+                <a has-any-authority="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN,Device_Edit"
+                   ui-sref="devices-edit({deviceId:device.id})" class="md-btn md-btn-small">
+                    <span class="uk-text-bold" data-translate="global.button.edit"></span>
+                </a>
+                <a has-any-authority="ROLE_SYSTEM_ADMIN,ROLE_FARM_ADMIN,Device_Create" ui-sref="devices-create"
+                   class="md-btn md-btn-success md-btn-small">
+                    <span class="uk-text-bold" data-translate="global.button.create"></span>
+                </a>
+                <div style="padding-left: 16px" class="float-right">
+                    <span ng-if="showRefresh" class="md-btn md-btn-success md-btn-small" ng-click="refresh()"><span
+                            class="material-icons">cached</span>&nbsp;Làm mới</span>
+                    <span ng-if="!showRefresh" class="md-btn md-btn-small"><span class="material-icons">cached</span>&nbsp;Làm mới</span>
+                </div>
+            </div>
+        </div>
+        <div id="page_content_inner">
+            <jhi-alert></jhi-alert>
+            <modal-alert></modal-alert>
+            <div class="md-card">
+                <div class="md-card-content">
+                    <div class="uk-grid" data-uk-grid-margin="">
+                        <div class="uk-width-medium-8-10">
+                            <div class="uk-grid">
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.area"></label>
+                                    </div>
+                                </div>
+                                <div class=" uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <input readonly
+                                           class="md-input ng-isolate-scope md-input-processed"
+                                           type="text" ng-model="device.areaName" input-long-text/>
+                                </div>
+
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6" ng-if="device.type != 3">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.state"></label>
+                                    </div>
+                                </div>
+                                <div class="uk-width-small-2-3 uk-width-medium-2-6 parsley-row"
+                                     ng-if="device.type != 3">
+                                    <div class="custom-disabled custom-label">
+                                        <span ng-if="device.state == 1" class="uk-badge uk-badge-success"><span
+                                                class="material-icons">wb_sunny</span>&nbsp;Bật</span>
+                                        <span ng-if="device.state == 0" class="uk-badge uk-badge-danger"><span
+                                                class="material-icons">highlight_off</span>&nbsp;Tắt</span>
+                                        <div ng-if="device.state == 2" style="width: 50%"
+                                             class="uk-progress uk-progress-warning uk-progress-striped uk-active"
+                                             title="Đang cập nhật...">
+                                            <div class="uk-progress-bar" style="width: 100%"><span style="color: black"><i>Đang cập nhật...</i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--loại - hiển thị khi device là other-->
+                                <div ng-if="device.type == 3" class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.type"></label>
+                                    </div>
+                                </div>
+                                <div ng-if="device.type == 3"
+                                     class=" uk-width-small-2-3  uk-width-medium-2-6 parsley-row">
+                                    <input readonly
+                                           class="md-input ng-isolate-scope md-input-processed"
+                                           type="text" value="Khác"/>
+                                </div>
+                            </div>
+
+                            <div class="uk-grid">
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.shortName"></label>
+                                    </div>
+                                </div>
+                                <div class=" uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <input readonly
+                                           class="md-input ng-isolate-scope md-input-processed"
+                                           type="text" ng-model="device.areaShortName" input-long-text/>
+                                </div>
+
+                                <div ng-if="device.type == 1" class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.belongGW"></label>
+                                    </div>
+                                </div>
+                                <div ng-if="device.type == 1"
+                                     class="uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <input readonly
+                                           class="md-input ng-isolate-scope md-input-processed"
+                                           type="text" ng-model="device.gatewayName" input-long-text/>
+                                </div>
+
+                                <div ng-if="device.type == 2" class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.type"></label>
+                                    </div>
+                                </div>
+                                <div ng-if="device.type == 2"
+                                     class=" uk-width-small-2-3  uk-width-medium-2-6 parsley-row">
+                                    <input ng-if="device.type == 2" readonly
+                                           class="md-input ng-isolate-scope md-input-processed"
+                                           type="text" value="Gateway"/>
+                                    <input ng-if="device.type == 1" readonly
+                                           class="md-input ng-isolate-scope md-input-processed"
+                                           type="text" value="Device"/>
+                                    <input ng-if="device.type == 3" readonly
+                                           class="md-input ng-isolate-scope md-input-processed"
+                                           type="text" value="Khác"/>
+                                </div>
+
+                                <div ng-if="device.type == 3" class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.serial"></label>
+                                    </div>
+                                </div>
+                                <div ng-if="device.type == 3"
+                                     class=" uk-width-small-2-3  uk-width-medium-2-6 parsley-row">
+                                    <input readonly
+                                           class="md-input ng-isolate-scope md-input-processed"
+                                           type="text" ng-model="device.serial" input-long-text/>
+                                </div>
+                            </div>
+
+                            <div class="uk-grid ">
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold custom-label"
+                                               data-translate="device.field.alias"></label>
+                                    </div>
+                                </div>
+                                <div class="uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <input readonly
+                                           class="md-input ng-isolate-scope md-input-processed"
+                                           type="text" ng-model="device.alias" input-long-text/>
+                                </div>
+                                <!--k hien thi line nay neu la other-->
+                                <div ng-if="device.type != 3" class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.serial"></label>
+                                    </div>
+                                </div>
+                                <div ng-if="device.type != 3"
+                                     class=" uk-width-small-2-3  uk-width-medium-2-6 parsley-row">
+                                    <input readonly
+                                           class="md-input ng-isolate-scope md-input-processed"
+                                           type="text" ng-model="device.serial" input-long-text/>
+                                </div>
+
+                                <div ng-if="device.type == 3" class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.code"></label>
+                                    </div>
+                                </div>
+                                <div ng-if="device.type == 3"
+                                     class=" uk-width-small-2-3  uk-width-medium-2-6 parsley-row">
+                                    <input readonly
+                                           class="md-input ng-isolate-scope md-input-processed"
+                                           type="text" ng-model="device.code" input-long-text/>
+                                </div>
+                            </div>
+
+                            <div class="uk-grid" ng-if="device.type != 3">
+                                <div ng-if="device.type == 1" class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.type"></label>
+                                    </div>
+                                </div>
+                                <div ng-if="device.type == 1"
+                                     class=" uk-width-small-2-3  uk-width-medium-2-6 parsley-row">
+                                    <input readonly
+                                           class="md-input ng-isolate-scope md-input-processed"
+                                           type="text" value="Device"/>
+                                </div>
+
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.code"></label>
+                                    </div>
+                                </div>
+                                <div class=" uk-width-small-2-3  uk-width-medium-2-6 parsley-row">
+                                    <input readonly
+                                           class="md-input ng-isolate-scope md-input-processed"
+                                           type="text" ng-model="device.code" input-long-text/>
+                                </div>
+
+                                <div ng-if="device.type == 2" class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.timer"></label>
+                                    </div>
+                                </div>
+                                <div ng-if="device.type == 2"
+                                     class="uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <input ng-model="device.timer" ng-readonly="true"
+                                           type="number"
+                                           min=0
+                                           name="timer"
+                                           class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                </div>
+                            </div>
+
+                            <div class="uk-grid">
+                                <div ng-if="device.type != 2" class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.timer"></label>
+                                    </div>
+                                </div>
+                                <div ng-if="device.type != 2"
+                                     class="uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <input ng-model="device.timer" ng-readonly="true"
+                                           id="timer" type="number"
+                                           min=0
+                                           name="timer"
+                                           class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                </div>
+
+                                <div ng-if="device.type != 3" class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.connectionState"></label>
+                                    </div>
+                                </div>
+                                <div ng-if="device.type != 3"
+                                     class="uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <div class="custom-label custom-disabled">
+                                        <span ng-if="device.connectionState == 0"
+                                              class="uk-badge uk-badge-primary"><span
+                                                class="material-icons">share</span>&nbsp;Đăng kí</span>
+                                        <span ng-if="device.connectionState == 1"
+                                              class="uk-badge uk-badge-success"><span class="material-icons">wifi</span>&nbsp;Kết nối</span>
+                                        <span ng-if="device.connectionState == 2" class="uk-badge uk-badge-danger"><span
+                                                class="material-icons">wifi_off</span>&nbsp;Mất kết nối</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="uk-grid ">
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.ipeName"></label>
+                                    </div>
+                                </div>
+                                <div class="uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <input ng-model="device.ipeName" ng-readonly="true"
+                                           id="ipeName" type="text"
+                                           class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                </div>
+
+                                <div ng-if="device.type==1" class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold ">Danh mục</label>
+                                    </div>
+                                </div>
+                                <div ng-if="device.type==1" class="uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <input ng-model="device.category" ng-readonly="true"
+                                           id="category" type="text"
+                                           ng-value="categoryMap[device.category]"
+                                           class="md-input ng-isolate-scope md-input-processed" md-input="">
+                                </div>
+
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold" data-translate="device.field.vendor"></label>
+                                    </div>
+                                </div>
+                                <div class=" uk-width-small-2-3  uk-width-medium-2-6 parsley-row">
+                                    <input readonly
+                                           class="md-input ng-isolate-scope md-input-processed"
+                                           type="text" ng-model="vendor" input-long-text/>
+                                </div>
+                            </div>
+
+                            <!--<div ng-if="device.type==2" class="uk-grid ">
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div >
+                                        <label class="label-bold custom-label ">Thời gian gửi/nhận tin</label>
+                                    </div>
+
+                                </div>
+                                <div class="uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <div>
+                                        <span>{{device.timer}}</span>
+                                    </div>
+                                </div>
+                            </div>-->
+
+                            <div ng-if="!device.gatewayId" class="uk-grid">
+                                <div class="uk-width-small-1-3 uk-width-medium-1-6">
+                                    <div class="custom-label">
+                                        <label class="label-bold">Token</label>
+                                    </div>
+                                </div>
+                                <div class="uk-width-small-2-3 uk-width-medium-2-6 parsley-row">
+                                    <textarea rows="5" cols="90">{{device.token}}</textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="uk-width-medium-2-10">
+                            <div class="user_heading_avatar custom-avatar-center" data-provides="fileinput"
+                                 ng-mouseenter="user.mouseEnter = true"
+                                 ng-mouseleave="user.mouseEnter = false">
+
+                                <img ng-if="device.avatar || user.userAvatarBase64" class="uk-border-circle"
+                                     ng-src="{{user.userAvatarBase64 ? user.userAvatarBase64 : '/attachment/images/' + device.avatar}}"
+                                     alt="user avatar" width="200" height="200"/>
+                                <img ng-if="!device.avatar && !user.userAvatarBase64" class="uk-border-circle"
+                                     ng-src="assets/img/avatars/avatar.jpg" alt="user avatar" width="200" height="200"/>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div ng-if="device.type==2">
+                        <ul class="uk-tab" data-uk-tab="{connect:'#contract_tabs'}">
+                            <li class="uk-active"><a href="#" ng-click="changeTab(1)"><h4 class="heading_a">Danh sách
+                                các thiết bị thuộc Gateway</h4></a></li>
+                        </ul>
+                        <ul id="contract_tabs" class="uk-switcher uk-margin">
+                            <li>
+                                <div class="uk-overflow-container uk-margin-bottom table-height-fixed">
+                                    <table class="hoverTable uk-table uk-table-align-vertical uk-table-striped  tablesorter tablesorter-altair table-fixed"
+                                           id="devices">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                <th-content table="TABLES['devices']" label="'device.field.code'"
+                                                            column="'code'"></th-content>
+                                            </th>
+                                            <th>
+                                                <th-content table="TABLES['devices']" label="'device.field.alias'"
+                                                            column="'alias'"></th-content>
+                                            </th>
+                                            <th>
+                                                <th-content table="TABLES['devices']" label="'device.field.serial'"
+                                                            column="'serial'"></th-content>
+                                            </th>
+                                            <th>
+                                                <th-content table="TABLES['devices']" label="'device.field.category'"
+                                                            column="'category'"></th-content>
+                                            </th>
+                                            <th>
+                                                <th-content table="TABLES['devices']" label="'device.field.area'"
+                                                            column="'areaId'"></th-content>
+                                            </th>
+                                            <th>
+                                                <th-content table="TABLES['devices']" label="'Tên viết tắt'"
+                                                            column="'areaId'"></th-content>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <default-filter table="TABLES['devices']" column="'code'">
+                                            </td>
+                                            <td>
+                                                <default-filter table="TABLES['devices']" column="'alias'">
+                                            </td>
+                                            <td>
+                                                <default-filter table="TABLES['devices']" column="'serial'">
+                                            </td>
+                                            <td>
+                                                <selectize id="categoryCbb"
+                                                           position="bottom"
+                                                           config="ComboBox['categoryCbb'].config"
+                                                           options="ComboBox['categoryCbb'].options"
+                                                           ng-model="ComboBox['categoryCbb'].ngModel"
+                                                           table="ComboBox['categoryCbb'].table"
+                                                           column="ComboBox['categoryCbb'].column"
+                                                           scope-controller="ComboBox['categoryCbb'].scope">
+                                                </selectize>
+                                            </td>
+                                            <td>
+                                                <selectize id="area"
+                                                           position="bottom"
+                                                           config="ComboBox['area_combobox'].config"
+                                                           options="ComboBox['area_combobox'].options"
+                                                           ng-model="selectedCbb.areaId"
+                                                           table="ComboBox['area_combobox'].table"
+                                                           column="ComboBox['area_combobox'].column"
+                                                           ng-change="onChangArea()"
+                                                           scope-controller="ComboBox['area_combobox'].scope">
+                                                </selectize>
+                                            </td>
+                                            <td>
+                                                <selectize id="shortArea"
+                                                           position="bottom"
+                                                           config="ComboBox['shortArea'].config"
+                                                           options="ComboBox['area_combobox'].options"
+                                                           ng-model="selectedCbb.areaId"
+                                                           table="ComboBox['shortArea'].table"
+                                                           column="ComboBox['shortArea'].column"
+                                                           ng-change="onChangArea()"
+                                                           scope-controller="ComboBox['shortArea'].scope">
+                                                </selectize>
+                                            </td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="obj in devices" on-last-repeat
+                                            ng-class="{'hoverRow': !obj.unRemove, 'custom-un-remove': obj.unRemove}"
+                                            title="{{obj.unRemove}}">
+                                            <td><a ui-sref="devices-detail({deviceId: obj.id })">{{obj.code}}</a></td>
+                                            <td><a ui-sref="devices-detail({deviceId: obj.id })">{{obj.alias}}</a></td>
+                                            <td><span>{{obj.serial}}</span></td>
+                                            <td>
+                                                {{ categoryMap[obj.category]}}
+                                                <!--<span ng-if="obj.type == 2">Gateway</span>
+                                                <span ng-if="obj.type == 1">Thiết bị</span>
+                                                <span ng-if="obj.type == 3">Khác</span>-->
+                                            </td>
+                                            <td><span>{{obj.areaName}}</span></td>
+                                            <td><span>{{obj.areaShortName}}</span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+</div>
